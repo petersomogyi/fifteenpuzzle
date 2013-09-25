@@ -6,11 +6,18 @@ public interface VertexInterface {
 	// Represented as {0, 1, 2, ... 14, 15}
 	public boolean isFinalConfiguration();
 	
+	// Print the vertex to the standard output as a string line.
+	public void print();		
+	
+	// Print the vertex to the standard output formatted.
+	public void printFormatted();
+	
 	// Returns an array of booleans with the available edges (movements)
 	// {U, R, D, L}
 	public boolean[] getAvailableEdges();	
 	
 	// Returns true if the edge (movement) is available
+	// Direction means that we move the empty tile (0) to that direction.
 	// TODO Create exception if move is not available
 	public boolean isUpAvailable();
 	public boolean isRightAvailable();
