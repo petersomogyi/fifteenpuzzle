@@ -5,7 +5,7 @@ public interface VertexInterface {
 	// Returns true if the current vertex is the final configuration
 	// Represented as {0, 1, 2, ... 14, 15}
 	public boolean isFinalConfiguration();
-
+	
 	// Returns an array of booleans with the available edges (movements)
 	// {U, R, D, L}
 	public boolean[] getAvailableEdges();	
