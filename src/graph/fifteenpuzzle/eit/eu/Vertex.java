@@ -203,14 +203,32 @@ public class Vertex implements VertexInterface {
 
 	@Override
 	public void move(char direction) {
-		// TODO Auto-generated method stub
-
+		if (direction == 'U') {
+			moveUp();
+		} else if (direction == 'R') {
+			moveRight();
+		} else if (direction == 'D') {
+			moveDown();
+		} else if (direction == 'L') {
+			moveLeft();
+		}
 	}
 
+	// Calculates the minimum distance of the puzzle
+	// using Manhattan Distance heuristic
+	// Link: http://heuristicswiki.wikispaces.com/Manhattan+Distance
 	@Override
 	public double getDistance() {
-		// TODO Auto-generated method stub
-		return 0;
+		double dist = 0;
+		
+		for (int i=0; i < 16; ++i) {
+			if (this.tiles[i] != 0) {
+				dist += Math.abs((this.tiles[i] % 4) - (i % 4));
+				dist += Math.abs((this.tiles[i] / 4) - (i / 4));
+			}
+		}
+		
+		return dist;
 	}
 
 }
