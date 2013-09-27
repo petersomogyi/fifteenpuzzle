@@ -5,7 +5,7 @@ import java.util.Arrays;
 public final class Vertex implements VertexInterface {
 
 	// Represents the puzzle in a linear array with 16 elements.
-	private int[] tiles;
+	private final int[] tiles;
 
 	// Constant for the final configuration.
 	private final int[] FINAL_CONFIGURATION = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9,
