@@ -12,67 +12,23 @@ public class FifteenOptimalSolution {
 		
 		movementTest01(v);
 		
-		v.printFormatted();
-		
-		System.out.println("Manhattan distance:\t" + v.getDistance());
 	}
 	
 	public static void movementTest01(Vertex v) {
 		System.out.println("*** Movement Test 01 ***");
-		
-		System.out.println(Arrays.toString(v.getAvailableEdges()));
-		
+		/*
 		System.out.println("Final:\t" + v.isFinalConfiguration());
 		System.out.println("Up:\t" + v.isUpAvailable());
 		System.out.println("Right:\t" + v.isRightAvailable());
 		System.out.println("Down:\t" + v.isDownAvailable());
 		System.out.println("Left\t" + v.isLeftAvailable());
-		
+		*/
 		System.out.println();
 		
 		v.printFormatted();
 		
-		v.moveUp();
-		System.out.println("Final:\t" + v.isFinalConfiguration());
-		System.out.println("Up:\t" + v.isUpAvailable());
-		System.out.println("Right:\t" + v.isRightAvailable());
-		System.out.println("Down:\t" + v.isDownAvailable());
-		System.out.println("Left\t" + v.isLeftAvailable());
+		v.moveUp().printFormatted();
 		
-		System.out.println();
-		
-		v.printFormatted();
-		
-
-		v.moveLeft();
-		System.out.println("Final:\t" + v.isFinalConfiguration());
-		System.out.println("Up:\t" + v.isUpAvailable());
-		System.out.println("Right:\t" + v.isRightAvailable());
-		System.out.println("Down:\t" + v.isDownAvailable());
-		System.out.println("Left\t" + v.isLeftAvailable());
-		
-		System.out.println();
-		
-		v.printFormatted();
-
-		v.moveDown();
-		System.out.println("Final:\t" + v.isFinalConfiguration());
-		System.out.println("Up:\t" + v.isUpAvailable());
-		System.out.println("Right:\t" + v.isRightAvailable());
-		System.out.println("Down:\t" + v.isDownAvailable());
-		System.out.println("Left\t" + v.isLeftAvailable());
-		
-		System.out.println();
-		
-		v.printFormatted();
-
-		v.moveRight();
-		System.out.println("Final:\t" + v.isFinalConfiguration());
-		System.out.println("Up:\t" + v.isUpAvailable());
-		System.out.println("Right:\t" + v.isRightAvailable());
-		System.out.println("Down:\t" + v.isDownAvailable());
-		System.out.println("Left\t" + v.isLeftAvailable());
-
 		System.out.println();
 		System.out.println("*** Movement Test 01 end ***");
 		System.out.println();

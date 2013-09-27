@@ -25,13 +25,13 @@ public interface VertexInterface {
 	public boolean isLeftAvailable();
 	
 	// Modifies the current vertex by moving to the desired direction
-	public void moveUp();
-	public void moveRight();
-	public void moveDown();
-	public void moveLeft();
+	public Vertex moveUp();
+	public Vertex moveRight();
+	public Vertex moveDown();
+	public Vertex moveLeft();
 	
 	// Modifies the current vertex by moving to the direction passed by the parameter
-	public void move(char direction);
+	public Vertex move(char direction);
 
 	// Returns a lower bound on its distance to the final configuration using
 	// the default heuristic

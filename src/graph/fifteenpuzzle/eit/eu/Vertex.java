@@ -2,7 +2,7 @@ package graph.fifteenpuzzle.eit.eu;
 
 import java.util.Arrays;
 
-public class Vertex implements VertexInterface {
+public final class Vertex implements VertexInterface {
 
 	// Represents the puzzle in a linear array with 16 elements.
 	private int[] tiles;
@@ -19,8 +19,7 @@ public class Vertex implements VertexInterface {
 			throw new IllegalArgumentException();
 
 		// Copy the elements of the array to the tiles variable
-		this.tiles = new int[16];
-		System.arraycopy(configuration, 0, this.tiles, 0, configuration.length);
+		this.tiles = Arrays.copyOf(configuration, configuration.length);
 	}
 
 	// Validates a configuration if it matches the requirements.
@@ -127,6 +126,8 @@ public class Vertex implements VertexInterface {
 		return getColumn(0);
 	}
 
+	// Return a boolean array which represents the available moves.
+	// [Up, Right, Down, Left] --> e.g. [true, true, false, true]
 	@Override
 	public boolean[] getAvailableEdges() {
 		boolean[] ret = new boolean[4];
@@ -158,59 +159,81 @@ public class Vertex implements VertexInterface {
 	}
 
 	@Override
-	public void moveUp() {
+	public Vertex moveUp() {
 		if (isUpAvailable()) {
 			int emptyIndex = getEmptyIndex();
-			this.tiles[emptyIndex] = this.tiles[emptyIndex - 4];
-			this.tiles[emptyIndex - 4] = 0;
+			int[] new_tiles = Arrays.copyOf(this.tiles, this.tiles.length);
+			
+			new_tiles[emptyIndex] = new_tiles[emptyIndex - 4];
+			new_tiles[emptyIndex - 4] = 0;
+			
+			return new Vertex(new_tiles);
 		} else {
 			// TODO Throw exception?
+			return null;
 		}
 	}
 
 	@Override
-	public void moveRight() {
+	public Vertex moveRight() {
 		if (isUpAvailable()) {
 			int emptyIndex = getEmptyIndex();
-			this.tiles[emptyIndex] = this.tiles[emptyIndex + 1];
-			this.tiles[emptyIndex + 1] = 0;
+			int[] new_tiles = Arrays.copyOf(this.tiles, this.tiles.length);
+			
+			new_tiles[emptyIndex] = new_tiles[emptyIndex + 1];
+			new_tiles[emptyIndex + 1] = 0;
+			
+			return new Vertex(new_tiles);
 		} else {
 			// TODO Throw exception?
+			return null;
 		}
 	}
 
 	@Override
-	public void moveDown() {
+	public Vertex moveDown() {
 		if (isUpAvailable()) {
 			int emptyIndex = getEmptyIndex();
-			this.tiles[emptyIndex] = this.tiles[emptyIndex + 4];
-			this.tiles[emptyIndex + 4] = 0;
+			int[] new_tiles = Arrays.copyOf(this.tiles, this.tiles.length);
+			
+			new_tiles[emptyIndex] = new_tiles[emptyIndex + 4];
+			new_tiles[emptyIndex + 4] = 0;
+			
+			return new Vertex(new_tiles);
 		} else {
 			// TODO Throw exception?
+			return null;
 		}
 	}
 
 	@Override
-	public void moveLeft() {
+	public Vertex moveLeft() {
 		if (isLeftAvailable()) {
 			int emptyIndex = getEmptyIndex();
-			this.tiles[emptyIndex] = this.tiles[emptyIndex - 1];
-			this.tiles[emptyIndex - 1] = 0;
+			int[] new_tiles = Arrays.copyOf(this.tiles, this.tiles.length);
+			
+			new_tiles[emptyIndex] = new_tiles[emptyIndex - 1];
+			new_tiles[emptyIndex - 1] = 0;
+			
+			return new Vertex(new_tiles);
 		} else {
 			// TODO Throw exception?
+			return null;
 		}
 	}
 
 	@Override
-	public void move(char direction) {
+	public Vertex move(char direction) {
 		if (direction == 'U') {
-			moveUp();
+			return moveUp();
 		} else if (direction == 'R') {
-			moveRight();
+			return moveRight();
 		} else if (direction == 'D') {
-			moveDown();
+			return moveDown();
 		} else if (direction == 'L') {
-			moveLeft();
+			return moveLeft();
+		} else {
+			return null;
 		}
 	}
 
