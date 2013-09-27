@@ -68,7 +68,9 @@ public final class Vertex implements VertexInterface {
 	public void printFormatted() {
 		for (int i = 0; i < 16; ++i) {
 			int e = this.tiles[i];
+			
 			if (e < 10)
+				// Adds leading space in front of the number
 				System.out.print(" " + e + " ");
 			else
 				System.out.print(e + " ");
@@ -100,10 +102,12 @@ public final class Vertex implements VertexInterface {
 		// Error
 		// if (i >= 16)
 		// throw new Exception();
+		// TODO Throw exception
 
 		return i / 4;
 	}
 
+	// Returns the row number of the empty tile
 	private int getRow() {
 		return getRow(0);
 	}
@@ -118,16 +122,19 @@ public final class Vertex implements VertexInterface {
 		// Error
 		// if (i >= 16)
 		// throw new Exception();
+		// TODO Throw exception
 
 		return i % 4;
 	}
 
+	// Returns the column number of the empty tile
 	private int getColumn() {
 		return getColumn(0);
 	}
 
 	// Return a boolean array which represents the available moves.
-	// [Up, Right, Down, Left] --> e.g. [true, true, false, true]
+	// [Up, Right, Down, Left]
+	// Example: [true, true, false, true]
 	@Override
 	public boolean[] getAvailableEdges() {
 		boolean[] ret = new boolean[4];
@@ -138,51 +145,63 @@ public final class Vertex implements VertexInterface {
 		return ret;
 	}
 
+	// Returns true if the up movement is enabled
 	@Override
 	public boolean isUpAvailable() {
 		return getRow() > 0;
 	}
 
+	// Returns true if the right movement is enabled
 	@Override
 	public boolean isRightAvailable() {
 		return getColumn() < 3;
 	}
 
+	// Returns true if the down movement is enabled
 	@Override
 	public boolean isDownAvailable() {
 		return getRow() < 3;
 	}
 
+	// Returns true if the left movement is enabled
 	@Override
 	public boolean isLeftAvailable() {
 		return getColumn() > 0;
 	}
 
+	// Returns a new Vertex object which can be reached
+	// from the current state by moving up
 	@Override
 	public Vertex moveUp() {
 		if (isUpAvailable()) {
 			int emptyIndex = getEmptyIndex();
 			int[] new_tiles = Arrays.copyOf(this.tiles, this.tiles.length);
 			
+			// Swap the 2 values
 			new_tiles[emptyIndex] = new_tiles[emptyIndex - 4];
 			new_tiles[emptyIndex - 4] = 0;
-			
+
+			// Create the new Vertex object
 			return new Vertex(new_tiles);
 		} else {
 			// TODO Throw exception?
 			return null;
 		}
 	}
-
+	
+	// Returns a new Vertex object which can be reached
+	// from the current state by moving right
 	@Override
 	public Vertex moveRight() {
 		if (isUpAvailable()) {
 			int emptyIndex = getEmptyIndex();
 			int[] new_tiles = Arrays.copyOf(this.tiles, this.tiles.length);
 			
+			// Swap the 2 values
 			new_tiles[emptyIndex] = new_tiles[emptyIndex + 1];
 			new_tiles[emptyIndex + 1] = 0;
-			
+
+			// Create the new Vertex object
 			return new Vertex(new_tiles);
 		} else {
 			// TODO Throw exception?
@@ -190,15 +209,19 @@ public final class Vertex implements VertexInterface {
 		}
 	}
 
+	// Returns a new Vertex object which can be reached
+	// from the current state by moving down
 	@Override
 	public Vertex moveDown() {
 		if (isUpAvailable()) {
 			int emptyIndex = getEmptyIndex();
 			int[] new_tiles = Arrays.copyOf(this.tiles, this.tiles.length);
-			
+
+			// Swap the 2 values
 			new_tiles[emptyIndex] = new_tiles[emptyIndex + 4];
 			new_tiles[emptyIndex + 4] = 0;
-			
+
+			// Create the new Vertex object
 			return new Vertex(new_tiles);
 		} else {
 			// TODO Throw exception?
@@ -206,15 +229,19 @@ public final class Vertex implements VertexInterface {
 		}
 	}
 
+	// Returns a new Vertex object which can be reached
+	// from the current state by moving left
 	@Override
 	public Vertex moveLeft() {
 		if (isLeftAvailable()) {
 			int emptyIndex = getEmptyIndex();
 			int[] new_tiles = Arrays.copyOf(this.tiles, this.tiles.length);
-			
+
+			// Swap the 2 values
 			new_tiles[emptyIndex] = new_tiles[emptyIndex - 1];
 			new_tiles[emptyIndex - 1] = 0;
-			
+
+			// Create the new Vertex object
 			return new Vertex(new_tiles);
 		} else {
 			// TODO Throw exception?
@@ -222,28 +249,33 @@ public final class Vertex implements VertexInterface {
 		}
 	}
 
+	// Returns a new Vertex object which can be reached
+	// from the current state by moving in the direction of the parameter
+	// direction == 'U' || 'R' || 'D' || 'L'
 	@Override
 	public Vertex move(char direction) {
-		if (direction == 'U') {
+		if (direction == 'U' || direction == 'u') {
 			return moveUp();
-		} else if (direction == 'R') {
+		} else if (direction == 'R' || direction == 'r') {
 			return moveRight();
-		} else if (direction == 'D') {
+		} else if (direction == 'D' || direction == 'd') {
 			return moveDown();
-		} else if (direction == 'L') {
+		} else if (direction == 'L' || direction == 'l') {
 			return moveLeft();
 		} else {
+			// TODO Throw exception
 			return null;
 		}
 	}
 
 	// Calculates the minimum distance of the puzzle
-	// using Manhattan Distance heuristic
+	// using the default heuristic (Manhattan Distance)
 	// Link: http://heuristicswiki.wikispaces.com/Manhattan+Distance
 	@Override
 	public double getDistance() {
 		double dist = 0;
 		
+		// Sum the individual distances from the correct position
 		for (int i=0; i < 16; ++i) {
 			if (this.tiles[i] != 0) {
 				dist += Math.abs((this.tiles[i] % 4) - (i % 4));
