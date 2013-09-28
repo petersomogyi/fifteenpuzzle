@@ -2,7 +2,7 @@ package graph.fifteenpuzzle.eit.eu;
 
 import java.util.Arrays;
 
-public final class Vertex implements VertexInterface {
+public final class Graph implements GraphConf {
 
 	// Represents the puzzle in a linear array with 16 elements.
 	private final int[] tiles;
@@ -13,7 +13,7 @@ public final class Vertex implements VertexInterface {
 
 	// Constructor from int array.
 	// TODO Discuss exception
-	public Vertex(final int[] configuration) throws IllegalArgumentException {
+	public Graph(final int[] configuration) throws IllegalArgumentException {
 		// Validate the configuration
 		if (!isValidconfiguration(configuration))
 			throw new IllegalArgumentException();
@@ -172,7 +172,7 @@ public final class Vertex implements VertexInterface {
 	// Returns a new Vertex object which can be reached
 	// from the current state by moving up
 	@Override
-	public Vertex moveUp() {
+	public Graph moveUp() {
 		if (isUpAvailable()) {
 			int emptyIndex = getEmptyIndex();
 			int[] new_tiles = Arrays.copyOf(this.tiles, this.tiles.length);
@@ -182,7 +182,7 @@ public final class Vertex implements VertexInterface {
 			new_tiles[emptyIndex - 4] = 0;
 
 			// Create the new Vertex object
-			return new Vertex(new_tiles);
+			return new Graph(new_tiles);
 		} else {
 			// TODO Throw exception?
 			return null;
@@ -192,7 +192,7 @@ public final class Vertex implements VertexInterface {
 	// Returns a new Vertex object which can be reached
 	// from the current state by moving right
 	@Override
-	public Vertex moveRight() {
+	public Graph moveRight() {
 		if (isUpAvailable()) {
 			int emptyIndex = getEmptyIndex();
 			int[] new_tiles = Arrays.copyOf(this.tiles, this.tiles.length);
@@ -202,7 +202,7 @@ public final class Vertex implements VertexInterface {
 			new_tiles[emptyIndex + 1] = 0;
 
 			// Create the new Vertex object
-			return new Vertex(new_tiles);
+			return new Graph(new_tiles);
 		} else {
 			// TODO Throw exception?
 			return null;
@@ -212,7 +212,7 @@ public final class Vertex implements VertexInterface {
 	// Returns a new Vertex object which can be reached
 	// from the current state by moving down
 	@Override
-	public Vertex moveDown() {
+	public Graph moveDown() {
 		if (isUpAvailable()) {
 			int emptyIndex = getEmptyIndex();
 			int[] new_tiles = Arrays.copyOf(this.tiles, this.tiles.length);
@@ -222,7 +222,7 @@ public final class Vertex implements VertexInterface {
 			new_tiles[emptyIndex + 4] = 0;
 
 			// Create the new Vertex object
-			return new Vertex(new_tiles);
+			return new Graph(new_tiles);
 		} else {
 			// TODO Throw exception?
 			return null;
@@ -232,7 +232,7 @@ public final class Vertex implements VertexInterface {
 	// Returns a new Vertex object which can be reached
 	// from the current state by moving left
 	@Override
-	public Vertex moveLeft() {
+	public Graph moveLeft() {
 		if (isLeftAvailable()) {
 			int emptyIndex = getEmptyIndex();
 			int[] new_tiles = Arrays.copyOf(this.tiles, this.tiles.length);
@@ -242,7 +242,7 @@ public final class Vertex implements VertexInterface {
 			new_tiles[emptyIndex - 1] = 0;
 
 			// Create the new Vertex object
-			return new Vertex(new_tiles);
+			return new Graph(new_tiles);
 		} else {
 			// TODO Throw exception?
 			return null;
@@ -253,7 +253,7 @@ public final class Vertex implements VertexInterface {
 	// from the current state by moving in the direction of the parameter
 	// direction == 'U' || 'R' || 'D' || 'L'
 	@Override
-	public Vertex move(char direction) {
+	public Graph move(char direction) {
 		if (direction == 'U' || direction == 'u') {
 			return moveUp();
 		} else if (direction == 'R' || direction == 'r') {

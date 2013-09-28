@@ -1,6 +1,6 @@
 package graph.fifteenpuzzle.eit.eu;
 
-public interface VertexInterface {
+public interface GraphConf {
 
 	// Returns true if the current vertex is the final configuration
 	// Represented as {0, 1, 2, ... 14, 15}
@@ -25,13 +25,13 @@ public interface VertexInterface {
 	public boolean isLeftAvailable();
 	
 	// Modifies the current vertex by moving to the desired direction
-	public Vertex moveUp();
-	public Vertex moveRight();
-	public Vertex moveDown();
-	public Vertex moveLeft();
+	public Graph moveUp();
+	public Graph moveRight();
+	public Graph moveDown();
+	public Graph moveLeft();
 	
 	// Modifies the current vertex by moving to the direction passed by the parameter
-	public Vertex move(char direction);
+	public Graph move(char direction);
 
 	// Returns a lower bound on its distance to the final configuration using
 	// the default heuristic
