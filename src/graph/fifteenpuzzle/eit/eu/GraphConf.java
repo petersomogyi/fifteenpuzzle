@@ -1,5 +1,7 @@
 package graph.fifteenpuzzle.eit.eu;
 
+import java.util.List;
+
 public interface GraphConf {
 
 	// Returns true if the current vertex is the final configuration
@@ -30,9 +32,13 @@ public interface GraphConf {
 	public Graph moveDown();
 	public Graph moveLeft();
 	
+	
 	// Modifies the current vertex by moving to the direction passed by the parameter
 	public Graph move(char direction);
 
+	// Returns a list with the successor combinations
+	public List<Graph> getSuccessors();
+	
 	// Returns a lower bound on its distance to the final configuration using
 	// the default heuristic
 	// TODO Int might be enough instead of double. Has to match the heuristics!

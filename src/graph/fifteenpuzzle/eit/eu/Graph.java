@@ -1,6 +1,8 @@
 package graph.fifteenpuzzle.eit.eu;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public final class Graph implements GraphConf {
 
@@ -266,6 +268,32 @@ public final class Graph implements GraphConf {
 			// TODO Throw exception
 			return null;
 		}
+	}
+	
+	// Returns a list with the successor combinations
+	public List<Graph> getSuccessors() {
+		List<Graph> successors = new ArrayList<Graph>();
+
+		// Add the successor nodes to the list.
+		if (isUpAvailable()) {
+			Graph up = moveUp();
+			successors.add(up);
+		}
+		if (isRightAvailable()) {
+			Graph right = moveRight();
+			successors.add(right);
+		}
+		if (isDownAvailable()) {
+			Graph down = moveDown();
+			successors.add(down);
+		}
+		if (isLeftAvailable()) {
+			Graph left = moveLeft();
+			successors.add(left);
+		}
+		
+		// Return with the list
+		return successors;
 	}
 
 	// Calculates the minimum distance of the puzzle
