@@ -1,4 +1,5 @@
-=Fifteen Puzzle
+Fifteen Puzzle
+==============
 
 The aim of the program is to find an optimal solution for the fifteen puzzle board game.
 
