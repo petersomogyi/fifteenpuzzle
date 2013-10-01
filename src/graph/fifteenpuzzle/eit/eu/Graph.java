@@ -313,5 +313,22 @@ public final class Graph implements GraphConf {
 		
 		return dist;
 	}
+	
+	@Override
+	//This should return the distance node..goal
+	//previous should return the distance root..node..goal
+	public double getDistance(Graph node) {
+		double dist = 0;
+		
+		// Sum the individual distances from the correct position
+		for (int i=0; i < 16; ++i) {
+			if (this.tiles[i] != 0) {
+				dist += Math.abs((this.tiles[i] % 4) - (i % 4));
+				dist += Math.abs((this.tiles[i] / 4) - (i / 4));
+			}
+		}
+		
+		return dist;
+	}
 
 }

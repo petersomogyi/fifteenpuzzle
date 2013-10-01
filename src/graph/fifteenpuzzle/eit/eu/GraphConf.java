@@ -48,4 +48,6 @@ public interface GraphConf {
 	// using the heuristic passed by the parameter
 	// TODO Discuss the possible heuristics
 	// public double getDistance(String heuristic); // Not required yet!
+	
+	public double getDistance(Graph node);
 }
