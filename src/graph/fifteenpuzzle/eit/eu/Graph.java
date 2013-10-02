@@ -111,7 +111,6 @@ public final class Graph implements GraphConf {
 		}
 
 		// Error
-		// if (i >= 16)
 		// throw new Exception();
 		// TODO Throw exception
 
@@ -203,7 +202,7 @@ public final class Graph implements GraphConf {
 	// from the current state by moving right
 	@Override
 	public Graph moveRight() {
-		if (isUpAvailable()) {
+		if (isRightAvailable()) {
 			int emptyIndex = getEmptyIndex();
 			int[] new_tiles = Arrays.copyOf(this.tiles, this.tiles.length);
 			
@@ -223,7 +222,7 @@ public final class Graph implements GraphConf {
 	// from the current state by moving down
 	@Override
 	public Graph moveDown() {
-		if (isUpAvailable()) {
+		if (isDownAvailable()) {
 			int emptyIndex = getEmptyIndex();
 			int[] new_tiles = Arrays.copyOf(this.tiles, this.tiles.length);
 
@@ -285,19 +284,19 @@ public final class Graph implements GraphConf {
 		// Add the successor nodes to the list.
 		if (isUpAvailable()) {
 			Graph up = moveUp();
-			if (up != null) successors.add(up);
+			successors.add(up);
 		}
 		if (isRightAvailable()) {
 			Graph right = moveRight();
-			if (right != null) successors.add(right);
+			successors.add(right);
 		}
 		if (isDownAvailable()) {
 			Graph down = moveDown();
-			if (down != null) successors.add(down);
+			successors.add(down);
 		}
 		if (isLeftAvailable()) {
 			Graph left = moveLeft();
-			if (left != null) successors.add(left);
+			successors.add(left);
 		}
 		
 		// Return with the list
