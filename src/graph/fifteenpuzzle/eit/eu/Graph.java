@@ -8,6 +8,7 @@ public final class Graph implements GraphConf {
 
 	// Represents the puzzle in a linear array with 16 elements.
 	private final int[] tiles;
+	private final int steps;
 
 	// Constant for the final configuration.
 	private final int[] FINAL_CONFIGURATION = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9,
@@ -22,6 +23,14 @@ public final class Graph implements GraphConf {
 
 		// Copy the elements of the array to the tiles variable
 		this.tiles = Arrays.copyOf(configuration, configuration.length);
+		this.steps = 0;
+	}
+	
+	private Graph(final int[] configuration, final int steps) {
+		// Copy the elements of the array to the tiles variable
+		this.tiles = Arrays.copyOf(configuration, configuration.length);
+
+		this.steps = steps + 1;
 	}
 
 	// Validates a configuration if it matches the requirements.
@@ -184,7 +193,7 @@ public final class Graph implements GraphConf {
 			new_tiles[emptyIndex - 4] = 0;
 
 			// Create the new Vertex object
-			return new Graph(new_tiles);
+			return new Graph(new_tiles, this.getSteps());
 		} else {
 			// TODO Throw exception?
 			return null;
@@ -204,7 +213,7 @@ public final class Graph implements GraphConf {
 			new_tiles[emptyIndex + 1] = 0;
 
 			// Create the new Vertex object
-			return new Graph(new_tiles);
+			return new Graph(new_tiles, this.getSteps());
 		} else {
 			// TODO Throw exception?
 			return null;
@@ -224,7 +233,7 @@ public final class Graph implements GraphConf {
 			new_tiles[emptyIndex + 4] = 0;
 
 			// Create the new Vertex object
-			return new Graph(new_tiles);
+			return new Graph(new_tiles, this.getSteps());
 		} else {
 			// TODO Throw exception?
 			return null;
@@ -244,7 +253,7 @@ public final class Graph implements GraphConf {
 			new_tiles[emptyIndex - 1] = 0;
 
 			// Create the new Vertex object
-			return new Graph(new_tiles);
+			return new Graph(new_tiles, this.getSteps());
 		} else {
 			// TODO Throw exception?
 			return null;
@@ -312,6 +321,11 @@ public final class Graph implements GraphConf {
 		}
 		
 		return dist;
+	}
+	
+	@Override
+	public int getSteps() {
+		return this.steps;
 	}
 	
 	@Override

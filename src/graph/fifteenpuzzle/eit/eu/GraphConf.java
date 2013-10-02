@@ -44,6 +44,8 @@ public interface GraphConf {
 	// TODO Int might be enough instead of double. Has to match the heuristics!
 	public double getDistance();
 	
+	public int getSteps();
+	
 	// Returns a lower bound on its distance to the final configuration
 	// using the heuristic passed by the parameter
 	// TODO Discuss the possible heuristics

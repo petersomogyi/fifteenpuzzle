@@ -1,14 +1,24 @@
 package fifteenpuzzle.eit.eu;
 
+import idastar.fifteenpuzzle.eit.eu.Idastar;
+import idastar.fifteenpuzzle.eit.eu.NoSolutionException;
 import graph.fifteenpuzzle.eit.eu.Graph;
 
 public class FifteenOptimalSolution {
 
 	public static void main(String[] args) {
 		int[] a = {15,1,2,3,4,5,6,7,8,0,10,11,9,13,14,12};
+		//int[] a = {0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15};
 		Graph v = new Graph(a);
 		
-		testList(v);
+		//testList(v);
+		Idastar solver = new Idastar();
+		try {
+			solver.runIdaStar(v);
+		} catch (NoSolutionException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	public static void movementTest01(Graph v) {

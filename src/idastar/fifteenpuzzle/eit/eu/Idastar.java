@@ -41,12 +41,16 @@ public final class Idastar implements IdastarConf {
 	
 	//
 	public void runIdaStar (Graph root) throws NoSolutionException{
-		double bound = root.getDistance();
+		if (root == null) System.err.println("NULL");
+		root.printFormatted();
+		double bound = root.getSteps();
 		while (true) {
 			double t = search (root, 0, bound);
 			if (t == 0) {//FOUND - distance can be positive or 0
+				System.out.println("FOUND SOLUTION");
 				return;
 			} else if (t == Double.MAX_VALUE) {
+				System.err.println("NO SOLUTION");
 				throw new NoSolutionException();
 			} else {
 				bound = t;
@@ -56,15 +60,23 @@ public final class Idastar implements IdastarConf {
 	
 	//int might be enough
 	public double search (Graph node, double g, double bound){
-		double f = g + node.getDistance();
+		System.out.println("search");
+		double f = g + node.getSteps();
 		if (f > bound) return f;
-		if (node.isFinalConfiguration()) return 0;
+		if (node.isFinalConfiguration()) {
+			System.out.println("Steps: " + node.getSteps());
+			node.printFormatted();
+			return 0;
+		}
 		double min = Double.MAX_VALUE;
 		for (Graph succ : node.getSuccessors()) {
 			//TODO:getDistance(node) implementation
-			double t = search (succ, g + succ.getDistance(node), bound);
-			if (t == 0) //FOUND - distance can be positive or 0
+			double t = search (succ, g + node.getDistance(), bound);
+			if (t == 0) { //FOUND - distance can be positive or 0
+				System.out.println("Steps: " + node.getSteps());
+				node.printFormatted();
 				return 0;
+			}
 			if (t < min) 
 				min = t;
 		}
