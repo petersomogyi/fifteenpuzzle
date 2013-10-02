@@ -7,8 +7,8 @@ import graph.fifteenpuzzle.eit.eu.Graph;
 public class FifteenOptimalSolution {
 
 	public static void main(String[] args) {
-		int[] a = {15,1,2,3,4,5,6,7,8,0,10,11,9,13,14,12};
-		//int[] a = {0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15};
+		int[] a = {1,2,3,7,4,5,0,6,8,9,10,11,12,13,14,15};
+		//int[] a = {10, 6, 4, 12, 1, 14, 3, 7, 5, 15, 11, 13, 8, 0, 2, 9};
 		Graph v = new Graph(a);
 		
 		//testList(v);

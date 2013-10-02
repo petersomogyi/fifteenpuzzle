@@ -131,7 +131,6 @@ public final class Graph implements GraphConf {
 		}
 
 		// Error
-		// if (i >= 16)
 		// throw new Exception();
 		// TODO Throw exception
 
@@ -282,23 +281,23 @@ public final class Graph implements GraphConf {
 	// Returns a list with the successor combinations
 	public List<Graph> getSuccessors() {
 		List<Graph> successors = new ArrayList<Graph>();
-
+		
 		// Add the successor nodes to the list.
 		if (isUpAvailable()) {
 			Graph up = moveUp();
-			successors.add(up);
+			if (up != null) successors.add(up);
 		}
 		if (isRightAvailable()) {
 			Graph right = moveRight();
-			successors.add(right);
+			if (right != null) successors.add(right);
 		}
 		if (isDownAvailable()) {
 			Graph down = moveDown();
-			successors.add(down);
+			if (down != null) successors.add(down);
 		}
 		if (isLeftAvailable()) {
 			Graph left = moveLeft();
-			successors.add(left);
+			if (left != null) successors.add(left);
 		}
 		
 		// Return with the list

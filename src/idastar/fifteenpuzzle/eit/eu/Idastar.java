@@ -41,8 +41,8 @@ public final class Idastar implements IdastarConf {
 	
 	//
 	public void runIdaStar (Graph root) throws NoSolutionException{
-		if (root == null) System.err.println("NULL");
-		root.printFormatted();
+		//if (root == null) System.err.println("NULL");
+		//root.printFormatted();
 		double bound = root.getSteps();
 		while (true) {
 			double t = search (root, 0, bound);
@@ -60,8 +60,8 @@ public final class Idastar implements IdastarConf {
 	
 	//int might be enough
 	public double search (Graph node, double g, double bound){
-		System.out.println("search");
 		double f = g + node.getSteps();
+		System.out.println("Steps: " + node.getSteps());
 		if (f > bound) return f;
 		if (node.isFinalConfiguration()) {
 			System.out.println("Steps: " + node.getSteps());
@@ -71,6 +71,9 @@ public final class Idastar implements IdastarConf {
 		double min = Double.MAX_VALUE;
 		for (Graph succ : node.getSuccessors()) {
 			//TODO:getDistance(node) implementation
+			if (succ == null) System.err.println("NULL");
+			//System.out.println("Steps: " + node.getSteps());
+			//node.printFormatted();
 			double t = search (succ, g + node.getDistance(), bound);
 			if (t == 0) { //FOUND - distance can be positive or 0
 				System.out.println("Steps: " + node.getSteps());
