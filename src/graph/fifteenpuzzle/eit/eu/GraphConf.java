@@ -39,10 +39,14 @@ public interface GraphConf {
 	// Returns a list with the successor combinations
 	public List<Graph> getSuccessors();
 	
-	// Returns a lower bound on its distance to the final configuration using
-	// the default heuristic
-	// TODO Int might be enough instead of double. Has to match the heuristics!
-	public double getDistance();
+	// Returns a lower bound on its distance to the final configuration
+	public int getDistance();
+
+	// Returns the Manhattan-distance
+	public int manhattanDistance();
+	
+	// Returns the cost from the linear conflicts
+	public int linearConflicts();
 	
 	public int getSteps();
 	
@@ -50,6 +54,5 @@ public interface GraphConf {
 	// using the heuristic passed by the parameter
 	// TODO Discuss the possible heuristics
 	// public double getDistance(String heuristic); // Not required yet!
-	
-	public double getDistance(Graph node);
+
 }

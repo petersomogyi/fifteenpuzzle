@@ -34,15 +34,16 @@ public final class Graph implements GraphConf {
 		// There were no move from the root element
 		this.previousMove = '-';
 	}
-	
-	private Graph(final int[] configuration, final int steps, final char previousMove) {
+
+	private Graph(final int[] configuration, final int steps,
+			final char previousMove) {
 		// Copy the elements of the array to the tiles variable
 		this.tiles = Arrays.copyOf(configuration, configuration.length);
 
 		this.steps = steps + 1;
-		
+
 		this.emptyIndex = getEmptyIndex();
-		
+
 		this.previousMove = previousMove;
 	}
 
@@ -92,7 +93,7 @@ public final class Graph implements GraphConf {
 	public void printFormatted() {
 		for (int i = 0; i < 16; ++i) {
 			int e = this.tiles[i];
-			
+
 			if (e < 10)
 				// Adds leading space in front of the number
 				System.out.print(" " + e + " ");
@@ -198,7 +199,7 @@ public final class Graph implements GraphConf {
 		if (isUpAvailable()) {
 			int emptyIndex = getEmptyIndex();
 			int[] new_tiles = Arrays.copyOf(this.tiles, this.tiles.length);
-			
+
 			// Swap the 2 values
 			new_tiles[emptyIndex] = new_tiles[emptyIndex - 4];
 			new_tiles[emptyIndex - 4] = 0;
@@ -210,7 +211,7 @@ public final class Graph implements GraphConf {
 			return null;
 		}
 	}
-	
+
 	// Returns a new Vertex object which can be reached
 	// from the current state by moving right
 	@Override
@@ -218,7 +219,7 @@ public final class Graph implements GraphConf {
 		if (isRightAvailable()) {
 			int emptyIndex = getEmptyIndex();
 			int[] new_tiles = Arrays.copyOf(this.tiles, this.tiles.length);
-			
+
 			// Swap the 2 values
 			new_tiles[emptyIndex] = new_tiles[emptyIndex + 1];
 			new_tiles[emptyIndex + 1] = 0;
@@ -289,11 +290,11 @@ public final class Graph implements GraphConf {
 			return null;
 		}
 	}
-	
+
 	// Returns a list with the successor combinations
 	public List<Graph> getSuccessors() {
 		List<Graph> successors = new ArrayList<Graph>();
-		
+
 		// Add the successor nodes to the list.
 		if (previousMove != 'D' && isUpAvailable()) {
 			Graph up = moveUp();
@@ -311,7 +312,7 @@ public final class Graph implements GraphConf {
 			Graph left = moveLeft();
 			successors.add(left);
 		}
-		
+
 		// Return with the list
 		return successors;
 	}
@@ -320,40 +321,33 @@ public final class Graph implements GraphConf {
 	// using the default heuristic (Manhattan Distance)
 	// Link: http://heuristicswiki.wikispaces.com/Manhattan+Distance
 	@Override
-	public double getDistance() {
-		double dist = 0;
-		
+	public int getDistance() {
+		return manhattanDistance() + linearConflicts();
+	}
+
+	public int manhattanDistance() {
+		int dist = 0;
+
 		// Sum the individual distances from the correct position
-		for (int i=0; i < 16; ++i) {
+		for (int i = 0; i < 16; ++i) {
 			if (this.tiles[i] != 0) {
 				dist += Math.abs((this.tiles[i] % 4) - (i % 4));
 				dist += Math.abs((this.tiles[i] / 4) - (i / 4));
 			}
 		}
-		
+
 		return dist;
 	}
 	
+	public int linearConflicts() {
+		int dist = 0;
+		// TODO linear conflict implementation
+		return dist;
+	}
+
 	@Override
 	public int getSteps() {
 		return this.steps;
-	}
-	
-	@Override
-	//This should return the distance node..goal
-	//previous should return the distance root..node..goal
-	public double getDistance(Graph node) {
-		double dist = 0;
-		
-		// Sum the individual distances from the correct position
-		for (int i=0; i < 16; ++i) {
-			if (this.tiles[i] != 0) {
-				dist += Math.abs((this.tiles[i] % 4) - (i % 4));
-				dist += Math.abs((this.tiles[i] / 4) - (i / 4));
-			}
-		}
-		
-		return dist;
 	}
 
 }
