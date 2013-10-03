@@ -8,7 +8,12 @@ public final class Graph implements GraphConf {
 
 	// Represents the puzzle in a linear array with 16 elements.
 	private final int[] tiles;
+	// Number of steps from the root
 	private final int steps;
+	// Direction of the previous move to check the
+	private final char previousMove;
+	// Index of the empty tile in the array
+	private final int emptyIndex;
 
 	// Constant for the final configuration.
 	private final int[] FINAL_CONFIGURATION = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9,
@@ -24,13 +29,21 @@ public final class Graph implements GraphConf {
 		// Copy the elements of the array to the tiles variable
 		this.tiles = Arrays.copyOf(configuration, configuration.length);
 		this.steps = 0;
+		// Store the empty index
+		this.emptyIndex = getEmptyIndex();
+		// There were no move from the root element
+		this.previousMove = '-';
 	}
 	
-	private Graph(final int[] configuration, final int steps) {
+	private Graph(final int[] configuration, final int steps, final char previousMove) {
 		// Copy the elements of the array to the tiles variable
 		this.tiles = Arrays.copyOf(configuration, configuration.length);
 
 		this.steps = steps + 1;
+		
+		this.emptyIndex = getEmptyIndex();
+		
+		this.previousMove = previousMove;
 	}
 
 	// Validates a configuration if it matches the requirements.
@@ -119,7 +132,7 @@ public final class Graph implements GraphConf {
 
 	// Returns the row number of the empty tile
 	private int getRow() {
-		return getRow(0);
+		return this.emptyIndex / 4;
 	}
 
 	// Returns the column of the tile
@@ -138,7 +151,7 @@ public final class Graph implements GraphConf {
 
 	// Returns the column number of the empty tile
 	private int getColumn() {
-		return getColumn(0);
+		return this.emptyIndex % 4;
 	}
 
 	// Return a boolean array which represents the available moves.
@@ -191,7 +204,7 @@ public final class Graph implements GraphConf {
 			new_tiles[emptyIndex - 4] = 0;
 
 			// Create the new Vertex object
-			return new Graph(new_tiles, this.getSteps());
+			return new Graph(new_tiles, this.getSteps(), 'U');
 		} else {
 			// TODO Throw exception?
 			return null;
@@ -211,7 +224,7 @@ public final class Graph implements GraphConf {
 			new_tiles[emptyIndex + 1] = 0;
 
 			// Create the new Vertex object
-			return new Graph(new_tiles, this.getSteps());
+			return new Graph(new_tiles, this.getSteps(), 'R');
 		} else {
 			// TODO Throw exception?
 			return null;
@@ -231,7 +244,7 @@ public final class Graph implements GraphConf {
 			new_tiles[emptyIndex + 4] = 0;
 
 			// Create the new Vertex object
-			return new Graph(new_tiles, this.getSteps());
+			return new Graph(new_tiles, this.getSteps(), 'D');
 		} else {
 			// TODO Throw exception?
 			return null;
@@ -251,7 +264,7 @@ public final class Graph implements GraphConf {
 			new_tiles[emptyIndex - 1] = 0;
 
 			// Create the new Vertex object
-			return new Graph(new_tiles, this.getSteps());
+			return new Graph(new_tiles, this.getSteps(), 'L');
 		} else {
 			// TODO Throw exception?
 			return null;
@@ -282,19 +295,19 @@ public final class Graph implements GraphConf {
 		List<Graph> successors = new ArrayList<Graph>();
 		
 		// Add the successor nodes to the list.
-		if (isUpAvailable()) {
+		if (previousMove != 'D' && isUpAvailable()) {
 			Graph up = moveUp();
 			successors.add(up);
 		}
-		if (isRightAvailable()) {
+		if (previousMove != 'L' && isRightAvailable()) {
 			Graph right = moveRight();
 			successors.add(right);
 		}
-		if (isDownAvailable()) {
+		if (previousMove != 'U' && isDownAvailable()) {
 			Graph down = moveDown();
 			successors.add(down);
 		}
-		if (isLeftAvailable()) {
+		if (previousMove != 'R' && isLeftAvailable()) {
 			Graph left = moveLeft();
 			successors.add(left);
 		}
