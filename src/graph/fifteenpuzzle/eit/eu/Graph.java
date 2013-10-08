@@ -1,5 +1,6 @@
 package graph.fifteenpuzzle.eit.eu;
 
+import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -20,7 +21,6 @@ public final class Graph implements GraphConf {
 			10, 11, 12, 13, 14, 15 };
 
 	// Constructor from int array.
-	// TODO Discuss exception
 	public Graph(final int[] configuration) throws IllegalArgumentException {
 		// Validate the configuration
 		if (!isValidconfiguration(configuration))
@@ -113,7 +113,7 @@ public final class Graph implements GraphConf {
 				return i;
 			++i;
 		}
-		// TODO Throw exception.
+
 		return i;
 	}
 
@@ -123,10 +123,6 @@ public final class Graph implements GraphConf {
 		while (i < 16 && this.tiles[i] != tileNumber) {
 			++i;
 		}
-
-		// Error
-		// throw new Exception();
-		// TODO Throw exception
 
 		return i / 4;
 	}
@@ -142,10 +138,6 @@ public final class Graph implements GraphConf {
 		while (i < 16 && this.tiles[i] != tileNumber) {
 			++i;
 		}
-
-		// Error
-		// throw new Exception();
-		// TODO Throw exception
 
 		return i % 4;
 	}
@@ -195,7 +187,7 @@ public final class Graph implements GraphConf {
 	// Returns a new Vertex object which can be reached
 	// from the current state by moving up
 	@Override
-	public Graph moveUp() {
+	public Graph moveUp() throws IllegalStateException {
 		if (isUpAvailable()) {
 			int emptyIndex = getEmptyIndex();
 			int[] new_tiles = Arrays.copyOf(this.tiles, this.tiles.length);
@@ -207,15 +199,15 @@ public final class Graph implements GraphConf {
 			// Create the new Vertex object
 			return new Graph(new_tiles, this.getSteps(), 'U');
 		} else {
-			// TODO Throw exception?
-			return null;
+			throw new IllegalStateException(
+					"Operation cannot be executed in this state.");
 		}
 	}
 
 	// Returns a new Vertex object which can be reached
 	// from the current state by moving right
 	@Override
-	public Graph moveRight() {
+	public Graph moveRight() throws IllegalStateException {
 		if (isRightAvailable()) {
 			int emptyIndex = getEmptyIndex();
 			int[] new_tiles = Arrays.copyOf(this.tiles, this.tiles.length);
@@ -227,15 +219,15 @@ public final class Graph implements GraphConf {
 			// Create the new Vertex object
 			return new Graph(new_tiles, this.getSteps(), 'R');
 		} else {
-			// TODO Throw exception?
-			return null;
+			throw new IllegalStateException(
+					"Operation cannot be executed in this state.");
 		}
 	}
 
 	// Returns a new Vertex object which can be reached
 	// from the current state by moving down
 	@Override
-	public Graph moveDown() {
+	public Graph moveDown() throws IllegalStateException {
 		if (isDownAvailable()) {
 			int emptyIndex = getEmptyIndex();
 			int[] new_tiles = Arrays.copyOf(this.tiles, this.tiles.length);
@@ -247,15 +239,15 @@ public final class Graph implements GraphConf {
 			// Create the new Vertex object
 			return new Graph(new_tiles, this.getSteps(), 'D');
 		} else {
-			// TODO Throw exception?
-			return null;
+			throw new IllegalStateException(
+					"Operation cannot be executed in this state.");
 		}
 	}
 
 	// Returns a new Vertex object which can be reached
 	// from the current state by moving left
 	@Override
-	public Graph moveLeft() {
+	public Graph moveLeft() throws IllegalStateException {
 		if (isLeftAvailable()) {
 			int emptyIndex = getEmptyIndex();
 			int[] new_tiles = Arrays.copyOf(this.tiles, this.tiles.length);
@@ -267,27 +259,8 @@ public final class Graph implements GraphConf {
 			// Create the new Vertex object
 			return new Graph(new_tiles, this.getSteps(), 'L');
 		} else {
-			// TODO Throw exception?
-			return null;
-		}
-	}
-
-	// Returns a new Vertex object which can be reached
-	// from the current state by moving in the direction of the parameter
-	// direction == 'U' || 'R' || 'D' || 'L'
-	@Override
-	public Graph move(char direction) {
-		if (direction == 'U' || direction == 'u') {
-			return moveUp();
-		} else if (direction == 'R' || direction == 'r') {
-			return moveRight();
-		} else if (direction == 'D' || direction == 'd') {
-			return moveDown();
-		} else if (direction == 'L' || direction == 'l') {
-			return moveLeft();
-		} else {
-			// TODO Throw exception
-			return null;
+			throw new IllegalStateException(
+					"Operation cannot be executed in this state.");
 		}
 	}
 
@@ -313,19 +286,20 @@ public final class Graph implements GraphConf {
 			successors.add(left);
 		}
 
-		// Return with the list
+		// Return with the list of successors
 		return successors;
 	}
 
 	// Calculates the minimum distance of the puzzle
-	// using the default heuristic (Manhattan Distance)
+	// using the Manhattan-Distance heuristic and linear conflicts
 	// Link: http://heuristicswiki.wikispaces.com/Manhattan+Distance
 	@Override
 	public int getDistance() {
 		return manhattanDistance() + linearConflicts();
 	}
 
-	public int manhattanDistance() {
+	// Returns the Manhattan-distance
+	private int manhattanDistance() {
 		int dist = 0;
 
 		// Sum the individual distances from the correct position
@@ -338,11 +312,43 @@ public final class Graph implements GraphConf {
 
 		return dist;
 	}
-	
+
+	// Returns the distance caused by the linear conflicts
+	// Link: http://heuristicswiki.wikispaces.com/Linear+Conflict
 	public int linearConflicts() {
 		int dist = 0;
 		// TODO linear conflict implementation
+		for (int i = 0; i < 16; ++i) {
+			int row = i / 4;
+			int col = i % 4;
+			
+			if ((tiles[i] != 0)) {
+				// Row
+				if (tiles[i] / 4 == row) {
+					for (int j = row * 4; j < (row + 1) * 4; ++j) {
+						if ((i != j) && (tiles[j] != 0) && (wrongOrder(i, j))) {
+							dist++;
+						}
+					}
+				}
+				
+				// Column
+				if (tiles[i] % 4 == col) {
+					for (int j = col; j < 16; j += 4) {
+						if ((i != j) && (tiles[j] != 0) && (wrongOrder(i, j))) {
+							dist++;
+						}
+					}
+				}
+			}
+		}
+		
 		return dist;
+	}
+
+	private boolean wrongOrder(int a, int b) {
+		return (((a < b) && tiles[a] > tiles[b])
+				|| ((a > b) && tiles[a] < tiles[b]));
 	}
 
 	@Override

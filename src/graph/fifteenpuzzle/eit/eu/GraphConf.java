@@ -20,39 +20,23 @@ public interface GraphConf {
 	
 	// Returns true if the edge (movement) is available
 	// Direction means that we move the empty tile (0) to that direction.
-	// TODO Create exception if move is not available
 	public boolean isUpAvailable();
 	public boolean isRightAvailable();
 	public boolean isDownAvailable();
 	public boolean isLeftAvailable();
 	
-	// Modifies the current vertex by moving to the desired direction
-	public Graph moveUp();
-	public Graph moveRight();
-	public Graph moveDown();
-	public Graph moveLeft();
+	// Modifies the current vertex by moving to the desired direction.
+	public Graph moveUp() throws IllegalStateException;
+	public Graph moveRight() throws IllegalStateException;
+	public Graph moveDown() throws IllegalStateException;
+	public Graph moveLeft() throws IllegalStateException;
 	
-	
-	// Modifies the current vertex by moving to the direction passed by the parameter
-	public Graph move(char direction);
-
-	// Returns a list with the successor combinations
+	// Returns a list with the successor combinations.
 	public List<Graph> getSuccessors();
 	
-	// Returns a lower bound on its distance to the final configuration
+	// Returns a lower bound on its distance to the final configuration.
 	public int getDistance();
 
-	// Returns the Manhattan-distance
-	public int manhattanDistance();
-	
-	// Returns the cost from the linear conflicts
-	public int linearConflicts();
-	
+	// Returns the steps from the initial configuration to the current one.
 	public int getSteps();
-	
-	// Returns a lower bound on its distance to the final configuration
-	// using the heuristic passed by the parameter
-	// TODO Discuss the possible heuristics
-	// public double getDistance(String heuristic); // Not required yet!
-
 }
