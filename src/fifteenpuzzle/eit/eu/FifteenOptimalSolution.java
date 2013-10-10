@@ -33,12 +33,8 @@ public class FifteenOptimalSolution {
 		//System.out.println(v.linearConflicts());
 		//testList(v);
 		Idastar solver = new Idastar();
-		try {
-			solver.runIdaStar(v);
-		} catch (NoSolutionException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		System.out.println(solver.resolve(v));
+
 		
 		//Check the solution
 		//TODO: throw errors
