@@ -8,6 +8,6 @@ public interface IdastarConf {
 	public void runIdaStar (Graph root) throws NoSolutionException;
 	
 	//int might be enough
-	public double search (Graph node, double g, double bound);
+	//public double search (Graph node, double g, double bound);
 
 }

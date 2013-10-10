@@ -317,27 +317,32 @@ public final class Graph implements GraphConf {
 	// Link: http://heuristicswiki.wikispaces.com/Linear+Conflict
 	public int linearConflicts() {
 		int dist = 0;
-		// TODO linear conflict implementation
-		for (int i = 0; i < 16; ++i) {
-			int row = i / 4;
-			int col = i % 4;
+
+		for (int row = 0; row < 4; ++row) {
+			int max = -1;
 			
-			if ((tiles[i] != 0)) {
-				// Row
-				if (tiles[i] / 4 == row) {
-					for (int j = row * 4; j < (row + 1) * 4; ++j) {
-						if ((i != j) && (tiles[j] != 0) && (wrongOrder(i, j))) {
-							dist++;
-						}
+			for (int col = 0; col < 4; ++col) {
+				int val = tiles[row * 4 + col];
+				if (val != 0 && val / 4 == row) {
+					if (val > max) {
+						max = val;
+					} else {
+						dist += 2;
 					}
 				}
-				
-				// Column
-				if (tiles[i] % 4 == col) {
-					for (int j = col; j < 16; j += 4) {
-						if ((i != j) && (tiles[j] != 0) && (wrongOrder(i, j))) {
-							dist++;
-						}
+			}
+		}
+		
+		for (int col = 0; col < 4; ++col) {
+			int max = -1;
+			
+			for (int row = 0; row < 4; ++row) {
+				int val = tiles[row * 4 + col];
+				if (val != 0 && val % 4 == col) {
+					if (val > max) {
+						max = val;
+					} else {
+						dist += 2;
 					}
 				}
 			}
