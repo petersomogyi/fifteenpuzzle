@@ -1,15 +1,33 @@
 package fifteenpuzzle.eit.eu;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Scanner;
+
 import idastar.fifteenpuzzle.eit.eu.Idastar;
 import idastar.fifteenpuzzle.eit.eu.NoSolutionException;
 import graph.fifteenpuzzle.eit.eu.Graph;
 
 public class FifteenOptimalSolution {
 
+	
 	public static void main(String[] args) {
 		//int[] a = {0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15};
 		int[] a = {1,2,3,7,4,5,0,6,8,9,10,11,12,13,14,15};
 		//int[] a = {10, 6, 4, 12, 1, 14, 3, 7, 5, 15, 11, 13, 8, 0, 2, 9};
+		
+		//reading the filename from the standard io
+		String fileName = getFileName();
+		//getting the initial state from the file
+		try {
+			a = getInitConfig(fileName);
+		} catch (FileNotFoundException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
 		Graph v = new Graph(a);
 		
 		//System.out.println(v.linearConflicts());
@@ -21,6 +39,10 @@ public class FifteenOptimalSolution {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+		//Check the solution
+		//TODO: throw errors
+		System.out.println("Optimal step number: " + getOptimalStepNum(fileName));
 	}
 	
 	public static void movementTest01(Graph v) {
@@ -51,5 +73,65 @@ public class FifteenOptimalSolution {
 			System.out.println();
 		}
 	}
-
+	
+	//read filename from the standard io
+	//after listing the content of test folder
+	public static String getFileName(){
+		File f = new File("Tests");
+		ArrayList<String> names = new ArrayList<String>(Arrays.asList(f.list()));
+		for (String n : names) {
+			if (n.matches("^(easy|korf).[0-9]{3}$"))
+				System.out.println(n);
+		}
+		System.out.println("Choose an input file:");
+		
+		Scanner input = new Scanner(System.in);
+	    String fileName = input.nextLine();
+		input.close();
+		return fileName;
+	}
+	
+	//TODO: add more exceptions
+	//check that there are really 15 numbers in the file
+	public static int[] getInitConfig(String fileName) throws FileNotFoundException {
+		Scanner scanner;
+		int[] a = new int[16];
+		try {
+			scanner = new Scanner(new File("Tests/"+fileName));
+			int i = 0;
+			while(scanner.hasNextInt()){
+			   a[i++] = scanner.nextInt();
+			}
+			scanner.close();
+			return a;
+		} catch (FileNotFoundException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		return null;
+	}
+	
+	//read file.ref
+	//TODO also check the "ok" part
+	//check the exceptions
+	public static int getOptimalStepNum(String fileName){
+		Scanner scanner;
+		int num = -1;
+		String isSolution= "";
+		try {
+			scanner = new Scanner(new File("Tests/"+fileName + ".ref"));
+			while(!scanner.hasNextInt()){
+				isSolution = isSolution + scanner.next();
+	        }
+			if (scanner.hasNextInt()) {
+			   num = scanner.nextInt();
+			}
+			scanner.close();
+			return num;
+		} catch (FileNotFoundException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		return num;
+	}
 }
