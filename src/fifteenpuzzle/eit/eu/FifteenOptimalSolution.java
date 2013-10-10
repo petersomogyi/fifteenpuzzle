@@ -30,44 +30,23 @@ public class FifteenOptimalSolution {
 		
 		Graph v = new Graph(a);
 		
-		//System.out.println(v.linearConflicts());
-		//testList(v);
+	
 		Idastar solver = new Idastar();
+	
+		System.out.println("Start searching...");
+		// Timer
+		long startTime = System.currentTimeMillis();
+		
 		System.out.println(solver.resolve(v));
-
+		
+		//Calculate elapsed time
+		long endTime   = System.currentTimeMillis();
+		long totalTime = endTime - startTime;
+		System.out.println("Running time: " + totalTime + "ms");
 		
 		//Check the solution
 		//TODO: throw errors
 		System.out.println("Optimal step number: " + getOptimalStepNum(fileName));
-	}
-	
-	public static void movementTest01(Graph v) {
-		System.out.println("*** Movement Test 01 ***");
-		/*
-		System.out.println("Final:\t" + v.isFinalConfiguration());
-		System.out.println("Up:\t" + v.isUpAvailable());
-		System.out.println("Right:\t" + v.isRightAvailable());
-		System.out.println("Down:\t" + v.isDownAvailable());
-		System.out.println("Left\t" + v.isLeftAvailable());
-		*/
-		System.out.println();
-		
-		v.printFormatted();
-		
-		v.moveUp().printFormatted();
-		
-		System.out.println();
-		System.out.println("*** Movement Test 01 end ***");
-		System.out.println();
-	}
-	
-	public static void testList(Graph v) {
-		v.printFormatted();
-		System.out.println("****************");
-		for (Graph g : v.getSuccessors()) {
-			g.printFormatted();
-			System.out.println();
-		}
 	}
 	
 	//read filename from the standard io
