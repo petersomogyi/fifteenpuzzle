@@ -1,5 +1,7 @@
 package idastar.fifteenpuzzle.eit.eu;
 
+import java.util.List;
+
 import graph.fifteenpuzzle.eit.eu.Graph;
 
 /*
@@ -44,7 +46,7 @@ public final class Idastar implements IdastarConf {
 	public void runIdaStar (Graph root) throws NoSolutionException{
 		//if (root == null) System.err.println("NULL");
 		//root.printFormatted();
-		double bound = root.getSteps();
+		/*double bound = root.getSteps();
 		while (true) {
 			double t = search (root, 0, bound);
 			if (t == 0) {//FOUND - distance can be positive or 0
@@ -57,10 +59,10 @@ public final class Idastar implements IdastarConf {
 			} else {
 				bound = t;
 			}
-		}
+		}*/
 	}
 	
-	//int might be enough
+	/*//int might be enough
 	public double search (Graph node, double g, double bound){
 		counter++;
 		double f = g + node.getSteps();
@@ -83,6 +85,43 @@ public final class Idastar implements IdastarConf {
 				min = t;
 		}
 		return min;
+	}
+	*/
+	public int resolve(Graph start) {
+		counter = 0;
+		
+		Graph solution = null;
+		int nextCost = start.getDistance();
+		
+		while (solution == null) {
+			int currentCost = nextCost;
+			solution = depthFirstSearch(start, currentCost);
+			nextCost += 2;
+		}
+		
+		return solution.getSteps();
+	}
+
+	private Graph depthFirstSearch(Graph current, int currentCost) {
+		if (current.isFinalConfiguration())
+			return current;
+		
+		counter++;
+		
+		List<Graph> children = current.getSuccessors();
+		
+		for (Graph child : children) {
+			int cost = child.getSteps() + child.getDistance();
+			
+			if (cost <= currentCost) {
+				Graph result = depthFirstSearch(child, currentCost);
+				if (result != null) {
+					return result;
+				}
+			}
+		}
+		
+		return null;
 	}
 
 }
