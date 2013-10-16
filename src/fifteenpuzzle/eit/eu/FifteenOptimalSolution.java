@@ -24,8 +24,8 @@ public class FifteenOptimalSolution {
 		try {
 			a = getInitConfig(fileName);
 		} catch (FileNotFoundException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+			System.err.println("The file does not exist!");
+			return;
 		}
 		
 		Graph v = new Graph(a);
@@ -42,7 +42,7 @@ public class FifteenOptimalSolution {
 		//Calculate elapsed time
 		long endTime   = System.currentTimeMillis();
 		long totalTime = endTime - startTime;
-		System.out.println("Running time: " + totalTime + "ms");
+		System.out.println("Running time: " + totalTime + " ms");
 		
 		//Check the solution
 		//TODO: throw errors
@@ -72,7 +72,9 @@ public class FifteenOptimalSolution {
 		Scanner scanner;
 		int[] a = new int[16];
 		try {
+			//can throw FileNotfoundException
 			scanner = new Scanner(new File("Tests/"+fileName));
+			
 			int i = 0;
 			while(scanner.hasNextInt()){
 			   a[i++] = scanner.nextInt();
@@ -80,10 +82,8 @@ public class FifteenOptimalSolution {
 			scanner.close();
 			return a;
 		} catch (FileNotFoundException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+			throw e1;
 		}
-		return null;
 	}
 	
 	//read file.ref
@@ -94,7 +94,9 @@ public class FifteenOptimalSolution {
 		int num = -1;
 		String isSolution= "";
 		try {
+			//can throw FileNotfoundException
 			scanner = new Scanner(new File("Tests/"+fileName + ".ref"));
+			
 			while(!scanner.hasNextInt()){
 				isSolution = isSolution + scanner.next();
 	        }
@@ -104,7 +106,7 @@ public class FifteenOptimalSolution {
 			scanner.close();
 			return num;
 		} catch (FileNotFoundException e1) {
-			// TODO Auto-generated catch block
+			//if the .ref pair of a correct test file does not exist
 			e1.printStackTrace();
 		}
 		return num;
