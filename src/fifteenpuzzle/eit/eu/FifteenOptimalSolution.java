@@ -37,11 +37,15 @@ public class FifteenOptimalSolution {
 		// Timer
 		long startTime = System.currentTimeMillis();
 		
-		System.out.println(solver.resolve(v));
+		System.out.println("Steps: " + solver.resolve(v));
 		
 		//Calculate elapsed time
 		long endTime   = System.currentTimeMillis();
 		long totalTime = endTime - startTime;
+
+		System.out.print("Solution: ");
+		solver.getPath();
+		
 		System.out.println("Running time: " + totalTime + " ms");
 		
 		//Check the solution

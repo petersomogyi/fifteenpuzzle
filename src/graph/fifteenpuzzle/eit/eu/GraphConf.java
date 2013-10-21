@@ -39,4 +39,7 @@ public interface GraphConf {
 
 	// Returns the steps from the initial configuration to the current one.
 	public int getSteps();
+	
+	// Returns the previous movement
+	public char getPreviousMove();
 }

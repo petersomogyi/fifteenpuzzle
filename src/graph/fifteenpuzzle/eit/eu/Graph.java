@@ -13,6 +13,7 @@ public final class Graph implements GraphConf {
 	private final int steps;
 	// Direction of the previous move to check the
 	private final char previousMove;
+	
 	// Index of the empty tile in the array
 	private final int emptyIndex;
 
@@ -359,6 +360,10 @@ public final class Graph implements GraphConf {
 	@Override
 	public int getSteps() {
 		return this.steps;
+	}
+	
+	public char getPreviousMove() {
+		return previousMove;
 	}
 
 }

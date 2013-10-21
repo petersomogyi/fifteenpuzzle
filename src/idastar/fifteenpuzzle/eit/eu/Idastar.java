@@ -1,6 +1,7 @@
 package idastar.fifteenpuzzle.eit.eu;
 
 import java.util.List;
+import java.util.Stack;
 
 import graph.fifteenpuzzle.eit.eu.Graph;
 
@@ -41,7 +42,9 @@ end function
 
 public final class Idastar implements IdastarConf {
 	
-	static int counter = 0;
+	private static int counter = 0;
+	private Stack<Character> path;
+	
 	//
 	public void runIdaStar (Graph root) throws NoSolutionException{
 		//if (root == null) System.err.println("NULL");
@@ -103,8 +106,14 @@ public final class Idastar implements IdastarConf {
 	}
 
 	private Graph depthFirstSearch(Graph current, int currentCost) {
-		if (current.isFinalConfiguration())
+		if (current.isFinalConfiguration()) {
+			path = new Stack<Character>();
+			char move = current.getPreviousMove();
+			if (move != '-') {
+				path.push(move);
+			}
 			return current;
+		}
 		
 		counter++;
 		
@@ -116,12 +125,23 @@ public final class Idastar implements IdastarConf {
 			if (cost <= currentCost) {
 				Graph result = depthFirstSearch(child, currentCost);
 				if (result != null) {
+					char move = current.getPreviousMove();
+					if (move != '-') {
+						path.push(move);
+					}
 					return result;
 				}
 			}
 		}
 		
 		return null;
+	}
+	
+	public void getPath() {
+		while (!path.empty())
+			System.out.print(path.pop() + " ");
+		
+		System.out.println();
 	}
 
 }
