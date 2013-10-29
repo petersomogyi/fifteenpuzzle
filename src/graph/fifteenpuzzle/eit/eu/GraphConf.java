@@ -2,6 +2,8 @@ package graph.fifteenpuzzle.eit.eu;
 
 import java.util.List;
 
+import trie.fifteenpuzzle.eit.eu.TrieNode;
+
 public interface GraphConf {
 
 	// Returns true if the current vertex is the final configuration
@@ -26,10 +28,10 @@ public interface GraphConf {
 	public boolean isLeftAvailable();
 	
 	// Modifies the current vertex by moving to the desired direction.
-	public Graph moveUp() throws IllegalStateException;
-	public Graph moveRight() throws IllegalStateException;
-	public Graph moveDown() throws IllegalStateException;
-	public Graph moveLeft() throws IllegalStateException;
+	public Graph moveUp(TrieNode currentNode) throws IllegalStateException;
+	public Graph moveRight(TrieNode currentNode) throws IllegalStateException;
+	public Graph moveDown(TrieNode currentNode) throws IllegalStateException;
+	public Graph moveLeft(TrieNode currentNode) throws IllegalStateException;
 	
 	// Returns a list with the successor combinations.
 	public List<Graph> getSuccessors();

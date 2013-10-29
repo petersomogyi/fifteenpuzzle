@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
 
+import trie.fifteenpuzzle.eit.eu.TrieNode;
 import idastar.fifteenpuzzle.eit.eu.Idastar;
 import idastar.fifteenpuzzle.eit.eu.NoSolutionException;
 import graph.fifteenpuzzle.eit.eu.Graph;
@@ -28,7 +29,20 @@ public class FifteenOptimalSolution {
 			return;
 		}
 		
-		Graph v = new Graph(a);
+		
+		TrieNode t = TrieNode.createTrie();
+        String[] words = {"lurdlurdlurd", "urdlurdlurdl", "rdlurdlurdlu", "dlurdlurdlur", 
+						  "ruldruldruld", "uldruldruldr", "ldruldruldru", "druldruldrul",
+						  "dllurrdllurrdllurr","llurrdllurrdllurrd","lurrdllurrdllurrdl","urrdllurrdllurrdll","rrdllurrdllurrdllu","rdllurrdllurrdllur",
+						  "drrulldrrulldrrull","rrulldrrulldrrulld","rulldrrulldrrulldr","ulldrrulldrrulldrr","lldrrulldrrulldrru","ldrrulldrrulldrrul",
+						  "ddruulddruulddruul","druulddruulddruuld","ruulddruulddruuldd","uulddruulddruulddr","ulddruulddruulddru","lddruulddruulddruu",
+						  "ddluurddluurddluur","dluurddluurddluurd","luurddluurddluurdd","uurddluurddluurddl","urddluurddluurddlu","rddluurddluurddluu",
+						  "ddlluurrddlluurrddlluurr","dlluurrddlluurrddlluurrd","lluurrddlluurrddlluurrdd","luurrddlluurrddlluurrddl","uurrddlluurrddlluurrddll","urrddlluurrddlluurrddllu","rrddlluurrddlluurrddlluu","rddlluurrddlluurrddlluur",
+						  "ddrruullddrruullddrruull","drruullddrruullddrruulld","rruullddrruullddrruulldd","ruullddrruullddrruullddr","uullddrruullddrruullddrr","ullddrruullddrruullddrru","llddrruullddrruullddrruu","lddrruullddrruullddrruul"};
+        for (int i = 0; i < words.length; i++)
+            TrieNode.insertWord(t, words[i]);
+        
+		Graph v = new Graph(a,t,t);
 		
 	
 		Idastar solver = new Idastar();
