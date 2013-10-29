@@ -143,5 +143,9 @@ public final class Idastar implements IdastarConf {
 		
 		System.out.println();
 	}
+	
+	public void getCounter() {
+		System.out.println(counter);
+	}
 
 }

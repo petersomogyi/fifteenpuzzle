@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import trie.fifteenpuzzle.eit.eu.TrieNode;
+import trie.fifteenpuzzle.eit.eu.Trie;
 
 public final class Graph implements GraphConf {
 
@@ -16,8 +16,8 @@ public final class Graph implements GraphConf {
 	// Direction of the previous move to check the
 	private final char previousMove;
 	
-	private final TrieNode trie;
-	private final TrieNode trieCurrent;
+	private final Trie trie;
+	private final Trie.TrieNode trieCurrent;
 	
 	// Index of the empty tile in the array
 	private final int emptyIndex;
@@ -27,7 +27,7 @@ public final class Graph implements GraphConf {
 			10, 11, 12, 13, 14, 15 };
 
 	// Constructor from int array.
-	public Graph(final int[] configuration, final TrieNode root, final TrieNode current) throws IllegalArgumentException {
+	public Graph(final int[] configuration, final Trie root, final Trie.TrieNode current) throws IllegalArgumentException {
 		// Validate the configuration
 		if (!isValidconfiguration(configuration))
 			throw new IllegalArgumentException();
@@ -44,7 +44,7 @@ public final class Graph implements GraphConf {
 	}
 
 	private Graph(final int[] configuration, final int steps,
-			final char previousMove, final TrieNode root, final TrieNode current) {
+			final char previousMove, final Trie root, final Trie.TrieNode current) {
 		// Copy the elements of the array to the tiles variable
 		this.tiles = Arrays.copyOf(configuration, configuration.length);
 
@@ -177,7 +177,7 @@ public final class Graph implements GraphConf {
 	// Returns a new Vertex object which can be reached
 	// from the current state by moving up
 	@Override
-	public Graph moveUp(TrieNode currentNode) throws IllegalStateException {
+	public Graph moveUp(Trie.TrieNode currentNode) throws IllegalStateException {
 		if (isUpAvailable()) {
 			int emptyIndex = getEmptyIndex();
 			int[] new_tiles = Arrays.copyOf(this.tiles, this.tiles.length);
@@ -197,7 +197,7 @@ public final class Graph implements GraphConf {
 	// Returns a new Vertex object which can be reached
 	// from the current state by moving right
 	@Override
-	public Graph moveRight(TrieNode currentNode) throws IllegalStateException {
+	public Graph moveRight(Trie.TrieNode currentNode) throws IllegalStateException {
 		if (isRightAvailable()) {
 			int emptyIndex = getEmptyIndex();
 			int[] new_tiles = Arrays.copyOf(this.tiles, this.tiles.length);
@@ -217,7 +217,7 @@ public final class Graph implements GraphConf {
 	// Returns a new Vertex object which can be reached
 	// from the current state by moving down
 	@Override
-	public Graph moveDown(TrieNode currentNode) throws IllegalStateException {
+	public Graph moveDown(Trie.TrieNode currentNode) throws IllegalStateException {
 		if (isDownAvailable()) {
 			int emptyIndex = getEmptyIndex();
 			int[] new_tiles = Arrays.copyOf(this.tiles, this.tiles.length);
@@ -237,7 +237,7 @@ public final class Graph implements GraphConf {
 	// Returns a new Vertex object which can be reached
 	// from the current state by moving left
 	@Override
-	public Graph moveLeft(TrieNode currentNode) throws IllegalStateException {
+	public Graph moveLeft(Trie.TrieNode currentNode) throws IllegalStateException {
 		if (isLeftAvailable()) {
 			int emptyIndex = getEmptyIndex();
 			int[] new_tiles = Arrays.copyOf(this.tiles, this.tiles.length);
@@ -260,10 +260,10 @@ public final class Graph implements GraphConf {
 		
 		//u,r,d,l are the corresponding next node in the trie,
 		//unless we found a cycle, then we get null
-		TrieNode u = TrieNode.nextNode(trie, trieCurrent, 'u');
-		TrieNode r = TrieNode.nextNode(trie, trieCurrent, 'r');
-		TrieNode d = TrieNode.nextNode(trie, trieCurrent, 'd');
-		TrieNode l = TrieNode.nextNode(trie, trieCurrent, 'l');
+		Trie.TrieNode u = trie.nextNode(trieCurrent, 'u');
+		Trie.TrieNode r = trie.nextNode(trieCurrent, 'r');
+		Trie.TrieNode d = trie.nextNode(trieCurrent, 'd');
+		Trie.TrieNode l = trie.nextNode(trieCurrent, 'l');
 
 		// Add the successor nodes to the list.
 		if (previousMove != 'D' && u != null && isUpAvailable()) {
@@ -292,6 +292,7 @@ public final class Graph implements GraphConf {
 	// Link: http://heuristicswiki.wikispaces.com/Manhattan+Distance
 	@Override
 	public int getDistance() {
+		//return manhattanDistance();
 		return manhattanDistance() + linearConflicts();
 	}
 

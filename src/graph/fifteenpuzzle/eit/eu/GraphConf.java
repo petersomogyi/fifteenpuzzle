@@ -2,7 +2,7 @@ package graph.fifteenpuzzle.eit.eu;
 
 import java.util.List;
 
-import trie.fifteenpuzzle.eit.eu.TrieNode;
+import trie.fifteenpuzzle.eit.eu.Trie;
 
 public interface GraphConf {
 
@@ -28,10 +28,10 @@ public interface GraphConf {
 	public boolean isLeftAvailable();
 	
 	// Modifies the current vertex by moving to the desired direction.
-	public Graph moveUp(TrieNode currentNode) throws IllegalStateException;
-	public Graph moveRight(TrieNode currentNode) throws IllegalStateException;
-	public Graph moveDown(TrieNode currentNode) throws IllegalStateException;
-	public Graph moveLeft(TrieNode currentNode) throws IllegalStateException;
+	public Graph moveUp(Trie.TrieNode currentNode) throws IllegalStateException;
+	public Graph moveRight(Trie.TrieNode currentNode) throws IllegalStateException;
+	public Graph moveDown(Trie.TrieNode currentNode) throws IllegalStateException;
+	public Graph moveLeft(Trie.TrieNode currentNode) throws IllegalStateException;
 	
 	// Returns a list with the successor combinations.
 	public List<Graph> getSuccessors();

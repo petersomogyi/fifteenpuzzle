@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
 
-import trie.fifteenpuzzle.eit.eu.TrieNode;
+import trie.fifteenpuzzle.eit.eu.Trie;
 import idastar.fifteenpuzzle.eit.eu.Idastar;
 import idastar.fifteenpuzzle.eit.eu.NoSolutionException;
 import graph.fifteenpuzzle.eit.eu.Graph;
@@ -30,7 +30,7 @@ public class FifteenOptimalSolution {
 		}
 		
 		
-		TrieNode t = TrieNode.createTrie();
+		Trie t = new Trie();
         String[] words = {"lurdlurdlurd", "urdlurdlurdl", "rdlurdlurdlu", "dlurdlurdlur", 
 						  "ruldruldruld", "uldruldruldr", "ldruldruldru", "druldruldrul",
 						  "dllurrdllurrdllurr","llurrdllurrdllurrd","lurrdllurrdllurrdl","urrdllurrdllurrdll","rrdllurrdllurrdllu","rdllurrdllurrdllur",
@@ -40,9 +40,9 @@ public class FifteenOptimalSolution {
 						  "ddlluurrddlluurrddlluurr","dlluurrddlluurrddlluurrd","lluurrddlluurrddlluurrdd","luurrddlluurrddlluurrddl","uurrddlluurrddlluurrddll","urrddlluurrddlluurrddllu","rrddlluurrddlluurrddlluu","rddlluurrddlluurrddlluur",
 						  "ddrruullddrruullddrruull","drruullddrruullddrruulld","rruullddrruullddrruulldd","ruullddrruullddrruullddr","uullddrruullddrruullddrr","ullddrruullddrruullddrru","llddrruullddrruullddrruu","lddrruullddrruullddrruul"};
         for (int i = 0; i < words.length; i++)
-            TrieNode.insertWord(t, words[i]);
+            t.insertWord(words[i]);
         
-		Graph v = new Graph(a,t,t);
+		Graph v = new Graph(a,t,t.root);
 		
 	
 		Idastar solver = new Idastar();
@@ -59,6 +59,8 @@ public class FifteenOptimalSolution {
 
 		System.out.print("Solution: ");
 		solver.getPath();
+		System.out.print("Number of checked nodes: ");
+		solver.getCounter();
 		
 		System.out.println("Running time: " + totalTime + " ms");
 		
