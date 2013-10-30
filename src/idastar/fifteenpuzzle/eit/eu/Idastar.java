@@ -1,9 +1,11 @@
 package idastar.fifteenpuzzle.eit.eu;
 
+import fifteenpuzzle.eit.eu.SearchResult;
+import graph.fifteenpuzzle.eit.eu.Graph;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
-
-import graph.fifteenpuzzle.eit.eu.Graph;
 
 /*
 IDA* algorithm pseudo code
@@ -42,56 +44,19 @@ end function
 
 public final class Idastar implements IdastarConf {
 	
-	private static int counter = 0;
+	private int counter = 0;
 	private Stack<Character> path;
 	
-	//
-	public void runIdaStar (Graph root) throws NoSolutionException{
-		//if (root == null) System.err.println("NULL");
-		//root.printFormatted();
-		/*double bound = root.getSteps();
-		while (true) {
-			double t = search (root, 0, bound);
-			if (t == 0) {//FOUND - distance can be positive or 0
-				System.out.println("FOUND SOLUTION");
-				System.out.println("Number of steps totally: "  + counter);
-				return;
-			} else if (t == Double.MAX_VALUE) {
-				System.err.println("NO SOLUTION");
-				throw new NoSolutionException();
-			} else {
-				bound = t;
-			}
-		}*/
-	}
-	
-	/*//int might be enough
-	public double search (Graph node, double g, double bound){
-		counter++;
-		double f = g + node.getSteps();
-		System.out.println("Steps: " + node.getSteps());
-		if (f > bound) return f;
-		if (node.isFinalConfiguration()) {
-			System.out.println("Steps: " + node.getSteps());
-			node.printFormatted();
-			return 0;
+	public SearchResult resolve(Graph start) throws NoSolutionException {
+		
+		if (!start.isSolvable()) {
+			throw new NoSolutionException();
 		}
-		double min = Double.MAX_VALUE;
-		for (Graph succ : node.getSuccessors()) {
-			double t = search (succ, g + node.getDistance(), bound);
-			if (t == 0) { //FOUND - distance can be positive or 0
-				System.out.println("Steps: " + node.getSteps());
-				node.printFormatted();
-				return 0;
-			}
-			if (t < min) 
-				min = t;
-		}
-		return min;
-	}
-	*/
-	public int resolve(Graph start) {
+		
 		counter = 0;
+
+		// Runtime calculation 
+		long startTime = System.currentTimeMillis();
 		
 		Graph solution = null;
 		int nextCost = start.getDistance();
@@ -102,9 +67,14 @@ public final class Idastar implements IdastarConf {
 			nextCost += 2;
 		}
 		
-		return solution.getSteps();
+		//Calculate elapsed time
+		long endTime   = System.currentTimeMillis();
+		long totalTime = endTime - startTime;
+		
+		SearchResult result = new SearchResult(solution.getSteps(), getPath(), counter, totalTime);
+		
+		return result;
 	}
-
 	private Graph depthFirstSearch(Graph current, int currentCost) {
 		if (current.isFinalConfiguration()) {
 			path = new Stack<Character>();
@@ -137,15 +107,15 @@ public final class Idastar implements IdastarConf {
 		return null;
 	}
 	
-	public void getPath() {
+	private char[] getPath() {
+		ArrayList<Character> list = new ArrayList<Character>();
 		while (!path.empty())
-			System.out.print(path.pop() + " ");
+			list.add(path.pop());
 		
-		System.out.println();
+		char[] ret = new char[list.size()];
+		for (int i=0; i<list.size(); ++i)
+				ret[i] = list.get(i);
+		return ret;
 	}
 	
-	public void getCounter() {
-		System.out.println(counter);
-	}
-
 }

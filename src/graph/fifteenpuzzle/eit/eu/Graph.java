@@ -1,7 +1,5 @@
 package graph.fifteenpuzzle.eit.eu;
 
-import idastar.fifteenpuzzle.eit.eu.NoSolutionException;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -17,8 +15,8 @@ public final class Graph implements GraphConf {
 	// Direction of the previous move to check the
 	private final char previousMove;
 
-	private final Trie trie;
-	private final Trie.TrieNode trieCurrent;
+	//private final Trie trie;
+	//private final Trie.TrieNode trieCurrent;
 
 	// Index of the empty tile in the array
 	private final int emptyIndex;
@@ -28,9 +26,8 @@ public final class Graph implements GraphConf {
 			10, 11, 12, 13, 14, 15 };
 
 	// Constructor from int array.
-	public Graph(final int[] configuration, final Trie root,
-			final Trie.TrieNode current) throws IllegalArgumentException,
-			NoSolutionException {
+	public Graph(final int[] configuration/*, final Trie root,
+			final Trie.TrieNode current*/) throws IllegalArgumentException {
 		// Validate the configuration
 		if (!isValidconfiguration(configuration))
 			throw new IllegalArgumentException();
@@ -42,16 +39,13 @@ public final class Graph implements GraphConf {
 		this.emptyIndex = getEmptyIndex();
 		// There were no move from the root element
 		this.previousMove = '-';
-		this.trie = root;
-		this.trieCurrent = current;
-
-		if (!isSolvable())
-			throw new NoSolutionException();
+		//this.trie = root;
+		//this.trieCurrent = current;
 	}
 
 	private Graph(final int[] configuration, final int steps,
-			final char previousMove, final Trie root,
-			final Trie.TrieNode current) {
+			final char previousMove/*, final Trie root,
+			final Trie.TrieNode current*/) {
 		// Copy the elements of the array to the tiles variable
 		this.tiles = Arrays.copyOf(configuration, configuration.length);
 
@@ -60,8 +54,8 @@ public final class Graph implements GraphConf {
 		this.emptyIndex = getEmptyIndex();
 
 		this.previousMove = previousMove;
-		this.trie = root;
-		this.trieCurrent = current;
+		//this.trie = root;
+		//this.trieCurrent = current;
 	}
 
 	// Validates a configuration if it matches the requirements.
@@ -103,7 +97,7 @@ public final class Graph implements GraphConf {
 	// If it is in the first or third row, then the inversion number has to be
 	// even,
 	// otherwise it needs to be odd!
-	private boolean isSolvable() {
+	public boolean isSolvable() {
 		int inversion = 0;
 
 		for (int i = 0; i < 16; ++i) {
@@ -217,7 +211,7 @@ public final class Graph implements GraphConf {
 	// Returns a new Vertex object which can be reached
 	// from the current state by moving up
 	@Override
-	public Graph moveUp(Trie.TrieNode currentNode) throws IllegalStateException {
+	public Graph moveUp(/*Trie.TrieNode currentNode*/) throws IllegalStateException {
 		if (isUpAvailable()) {
 			int emptyIndex = getEmptyIndex();
 			int[] new_tiles = Arrays.copyOf(this.tiles, this.tiles.length);
@@ -227,7 +221,7 @@ public final class Graph implements GraphConf {
 			new_tiles[emptyIndex - 4] = 0;
 
 			// Create the new Vertex object
-			return new Graph(new_tiles, this.getSteps(), 'U', trie, currentNode);
+			return new Graph(new_tiles, this.getSteps(), 'U'/*, trie, currentNode*/);
 		} else {
 			throw new IllegalStateException(
 					"Operation cannot be executed in this state.");
@@ -237,7 +231,7 @@ public final class Graph implements GraphConf {
 	// Returns a new Vertex object which can be reached
 	// from the current state by moving right
 	@Override
-	public Graph moveRight(Trie.TrieNode currentNode)
+	public Graph moveRight(/*Trie.TrieNode currentNode*/)
 			throws IllegalStateException {
 		if (isRightAvailable()) {
 			int emptyIndex = getEmptyIndex();
@@ -248,7 +242,7 @@ public final class Graph implements GraphConf {
 			new_tiles[emptyIndex + 1] = 0;
 
 			// Create the new Vertex object
-			return new Graph(new_tiles, this.getSteps(), 'R', trie, currentNode);
+			return new Graph(new_tiles, this.getSteps(), 'R'/*, trie, currentNode*/);
 		} else {
 			throw new IllegalStateException(
 					"Operation cannot be executed in this state.");
@@ -258,7 +252,7 @@ public final class Graph implements GraphConf {
 	// Returns a new Vertex object which can be reached
 	// from the current state by moving down
 	@Override
-	public Graph moveDown(Trie.TrieNode currentNode)
+	public Graph moveDown(/*Trie.TrieNode currentNode*/)
 			throws IllegalStateException {
 		if (isDownAvailable()) {
 			int emptyIndex = getEmptyIndex();
@@ -269,7 +263,7 @@ public final class Graph implements GraphConf {
 			new_tiles[emptyIndex + 4] = 0;
 
 			// Create the new Vertex object
-			return new Graph(new_tiles, this.getSteps(), 'D', trie, currentNode);
+			return new Graph(new_tiles, this.getSteps(), 'D'/*, trie, currentNode*/);
 		} else {
 			throw new IllegalStateException(
 					"Operation cannot be executed in this state.");
@@ -279,7 +273,7 @@ public final class Graph implements GraphConf {
 	// Returns a new Vertex object which can be reached
 	// from the current state by moving left
 	@Override
-	public Graph moveLeft(Trie.TrieNode currentNode)
+	public Graph moveLeft(/*Trie.TrieNode currentNode*/)
 			throws IllegalStateException {
 		if (isLeftAvailable()) {
 			int emptyIndex = getEmptyIndex();
@@ -290,7 +284,7 @@ public final class Graph implements GraphConf {
 			new_tiles[emptyIndex - 1] = 0;
 
 			// Create the new Vertex object
-			return new Graph(new_tiles, this.getSteps(), 'L', trie, currentNode);
+			return new Graph(new_tiles, this.getSteps(), 'L'/*, trie, currentNode*/);
 		} else {
 			throw new IllegalStateException(
 					"Operation cannot be executed in this state.");
@@ -303,26 +297,26 @@ public final class Graph implements GraphConf {
 
 		// u,r,d,l are the corresponding next node in the trie,
 		// unless we found a cycle, then we get null
-		Trie.TrieNode u = trie.nextNode(trieCurrent, 'u');
+		/*Trie.TrieNode u = trie.nextNode(trieCurrent, 'u');
 		Trie.TrieNode r = trie.nextNode(trieCurrent, 'r');
 		Trie.TrieNode d = trie.nextNode(trieCurrent, 'd');
 		Trie.TrieNode l = trie.nextNode(trieCurrent, 'l');
-
+*/
 		// Add the successor nodes to the list.
-		if (previousMove != 'D' && u != null && isUpAvailable()) {
-			Graph up = moveUp(u);
+		if (previousMove != 'D' && isUpAvailable()) {
+			Graph up = moveUp();
 			successors.add(up);
 		}
-		if (previousMove != 'L' && r != null && isRightAvailable()) {
-			Graph right = moveRight(r);
+		if (previousMove != 'L' && isRightAvailable()) {
+			Graph right = moveRight();
 			successors.add(right);
 		}
-		if (previousMove != 'U' && d != null && isDownAvailable()) {
-			Graph down = moveDown(d);
+		if (previousMove != 'U' && isDownAvailable()) {
+			Graph down = moveDown();
 			successors.add(down);
 		}
-		if (previousMove != 'R' && l != null && isLeftAvailable()) {
-			Graph left = moveLeft(l);
+		if (previousMove != 'R' && isLeftAvailable()) {
+			Graph left = moveLeft();
 			successors.add(left);
 		}
 

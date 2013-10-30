@@ -28,10 +28,10 @@ public interface GraphConf {
 	public boolean isLeftAvailable();
 	
 	// Modifies the current vertex by moving to the desired direction.
-	public Graph moveUp(Trie.TrieNode currentNode) throws IllegalStateException;
-	public Graph moveRight(Trie.TrieNode currentNode) throws IllegalStateException;
-	public Graph moveDown(Trie.TrieNode currentNode) throws IllegalStateException;
-	public Graph moveLeft(Trie.TrieNode currentNode) throws IllegalStateException;
+	public Graph moveUp(/*Trie.TrieNode currentNode*/) throws IllegalStateException;
+	public Graph moveRight(/*Trie.TrieNode currentNode*/) throws IllegalStateException;
+	public Graph moveDown(/*Trie.TrieNode currentNode*/) throws IllegalStateException;
+	public Graph moveLeft(/*Trie.TrieNode currentNode*/) throws IllegalStateException;
 	
 	// Returns a list with the successor combinations.
 	public List<Graph> getSuccessors();

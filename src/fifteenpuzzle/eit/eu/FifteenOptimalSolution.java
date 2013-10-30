@@ -10,10 +10,13 @@ import trie.fifteenpuzzle.eit.eu.Trie;
 import idastar.fifteenpuzzle.eit.eu.Idastar;
 import idastar.fifteenpuzzle.eit.eu.NoSolutionException;
 import graph.fifteenpuzzle.eit.eu.Graph;
+import gui.fifteenpuzzle.eit.eu.MainFrame;
 
 public class FifteenOptimalSolution {
 
 	public static void main(String[] args) {
+		new Controller();
+/*		
 		int[] a = {1,2,3,7,4,5,0,6,8,9,10,11,12,13,14,15};
 		
 		//reading the filename from the standard io
@@ -70,7 +73,7 @@ public class FifteenOptimalSolution {
         	System.out.println("FAILURE");
         	System.err.println(e.getMessage());
         }
-        
+        */
 		
 	}
 
