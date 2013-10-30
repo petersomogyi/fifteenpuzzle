@@ -1,6 +1,7 @@
 package graph.fifteenpuzzle.eit.eu;
 
-import java.security.InvalidParameterException;
+import idastar.fifteenpuzzle.eit.eu.NoSolutionException;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -15,10 +16,10 @@ public final class Graph implements GraphConf {
 	private final int steps;
 	// Direction of the previous move to check the
 	private final char previousMove;
-	
+
 	private final Trie trie;
 	private final Trie.TrieNode trieCurrent;
-	
+
 	// Index of the empty tile in the array
 	private final int emptyIndex;
 
@@ -27,7 +28,9 @@ public final class Graph implements GraphConf {
 			10, 11, 12, 13, 14, 15 };
 
 	// Constructor from int array.
-	public Graph(final int[] configuration, final Trie root, final Trie.TrieNode current) throws IllegalArgumentException {
+	public Graph(final int[] configuration, final Trie root,
+			final Trie.TrieNode current) throws IllegalArgumentException,
+			NoSolutionException {
 		// Validate the configuration
 		if (!isValidconfiguration(configuration))
 			throw new IllegalArgumentException();
@@ -41,10 +44,14 @@ public final class Graph implements GraphConf {
 		this.previousMove = '-';
 		this.trie = root;
 		this.trieCurrent = current;
+
+		if (!isSolvable())
+			throw new NoSolutionException();
 	}
 
 	private Graph(final int[] configuration, final int steps,
-			final char previousMove, final Trie root, final Trie.TrieNode current) {
+			final char previousMove, final Trie root,
+			final Trie.TrieNode current) {
 		// Copy the elements of the array to the tiles variable
 		this.tiles = Arrays.copyOf(configuration, configuration.length);
 
@@ -81,6 +88,39 @@ public final class Graph implements GraphConf {
 
 		// Validation finished successfully.
 		return true;
+	}
+
+	// 15 puzzle solvability
+	// Background:
+	// http://www.cs.bham.ac.uk/~mdr/teaching/modules04/java2/TilesSolvability.html
+	// Note: The final solution is different in most of the examples
+	// (the empty tile needs to be in the final place)
+	// The solvability is modified based on this difference.
+	//
+	// Sum the inversion number of the tiles
+	// Because the grid's width is even, we have to check the empty tile's
+	// position.
+	// If it is in the first or third row, then the inversion number has to be
+	// even,
+	// otherwise it needs to be odd!
+	private boolean isSolvable() {
+		int inversion = 0;
+
+		for (int i = 0; i < 16; ++i) {
+			for (int j = i + 1; j < 16; ++j) {
+				if (tiles[i] > tiles[j] && tiles[i] != 0 && tiles[j] != 0)
+					// Inversion (do not count the empty tile!)
+					inversion++;
+			}
+		}
+
+		if ((emptyIndex / 4) % 2 == 0) {
+			// First or third row -> inversion even
+			return inversion % 2 == 0;
+		} else {
+			// Second or fourth row -> inversion odd
+			return inversion % 2 == 1;
+		}
 	}
 
 	// Returns true if the current configuration is the final one.
@@ -197,7 +237,8 @@ public final class Graph implements GraphConf {
 	// Returns a new Vertex object which can be reached
 	// from the current state by moving right
 	@Override
-	public Graph moveRight(Trie.TrieNode currentNode) throws IllegalStateException {
+	public Graph moveRight(Trie.TrieNode currentNode)
+			throws IllegalStateException {
 		if (isRightAvailable()) {
 			int emptyIndex = getEmptyIndex();
 			int[] new_tiles = Arrays.copyOf(this.tiles, this.tiles.length);
@@ -217,7 +258,8 @@ public final class Graph implements GraphConf {
 	// Returns a new Vertex object which can be reached
 	// from the current state by moving down
 	@Override
-	public Graph moveDown(Trie.TrieNode currentNode) throws IllegalStateException {
+	public Graph moveDown(Trie.TrieNode currentNode)
+			throws IllegalStateException {
 		if (isDownAvailable()) {
 			int emptyIndex = getEmptyIndex();
 			int[] new_tiles = Arrays.copyOf(this.tiles, this.tiles.length);
@@ -237,7 +279,8 @@ public final class Graph implements GraphConf {
 	// Returns a new Vertex object which can be reached
 	// from the current state by moving left
 	@Override
-	public Graph moveLeft(Trie.TrieNode currentNode) throws IllegalStateException {
+	public Graph moveLeft(Trie.TrieNode currentNode)
+			throws IllegalStateException {
 		if (isLeftAvailable()) {
 			int emptyIndex = getEmptyIndex();
 			int[] new_tiles = Arrays.copyOf(this.tiles, this.tiles.length);
@@ -257,9 +300,9 @@ public final class Graph implements GraphConf {
 	// Returns a list with the successor combinations
 	public List<Graph> getSuccessors() {
 		List<Graph> successors = new ArrayList<Graph>();
-		
-		//u,r,d,l are the corresponding next node in the trie,
-		//unless we found a cycle, then we get null
+
+		// u,r,d,l are the corresponding next node in the trie,
+		// unless we found a cycle, then we get null
 		Trie.TrieNode u = trie.nextNode(trieCurrent, 'u');
 		Trie.TrieNode r = trie.nextNode(trieCurrent, 'r');
 		Trie.TrieNode d = trie.nextNode(trieCurrent, 'd');
@@ -292,7 +335,7 @@ public final class Graph implements GraphConf {
 	// Link: http://heuristicswiki.wikispaces.com/Manhattan+Distance
 	@Override
 	public int getDistance() {
-		//return manhattanDistance();
+		// return manhattanDistance();
 		return manhattanDistance() + linearConflicts();
 	}
 
@@ -318,7 +361,7 @@ public final class Graph implements GraphConf {
 
 		for (int row = 0; row < 4; ++row) {
 			int max = -1;
-			
+
 			for (int col = 0; col < 4; ++col) {
 				int val = tiles[row * 4 + col];
 				if (val != 0 && val / 4 == row) {
@@ -330,10 +373,10 @@ public final class Graph implements GraphConf {
 				}
 			}
 		}
-		
+
 		for (int col = 0; col < 4; ++col) {
 			int max = -1;
-			
+
 			for (int row = 0; row < 4; ++row) {
 				int val = tiles[row * 4 + col];
 				if (val != 0 && val % 4 == col) {
@@ -345,20 +388,15 @@ public final class Graph implements GraphConf {
 				}
 			}
 		}
-		
-		return dist;
-	}
 
-	private boolean wrongOrder(int a, int b) {
-		return (((a < b) && tiles[a] > tiles[b])
-				|| ((a > b) && tiles[a] < tiles[b]));
+		return dist;
 	}
 
 	@Override
 	public int getSteps() {
 		return this.steps;
 	}
-	
+
 	public char getPreviousMove() {
 		return previousMove;
 	}
