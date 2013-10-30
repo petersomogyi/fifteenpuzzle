@@ -55,17 +55,18 @@ public class MainFrame extends JFrame {
 		btnAnimate = new JButton("Play");
 		btnOpen = new JButton("Open");
 
-		lblStepNo = new JLabel("Optimal steps: 0");
-		lblRuntime = new JLabel("Running time: 0");
+		lblStepNo = new JLabel("Optimal steps: -");
+		lblRuntime = new JLabel("Running time: -");
 		lblSteps = new JLabel("Steps");
 		txpSteps = new JTextPane();
 
-		fileChooser = new JFileChooser();
+		File f = new File(".");
+		fileChooser = new JFileChooser(f.getAbsolutePath());
 
 		lblPuzzle = new JLabel("Puzzle position");
-		
+
 		lblProgress = new JLabel(new ImageIcon("loading.gif"));
-		
+
 		pnlControl.setPreferredSize(new Dimension(245, 600));
 		pnlControl.setMaximumSize(new Dimension(245, 600));
 		pnlControl.setMinimumSize(new Dimension(245, 600));
@@ -74,9 +75,9 @@ public class MainFrame extends JFrame {
 		pnlPuzzle.setBorder(BorderFactory.createTitledBorder("Puzzle"));
 		pnlControl.setBorder(BorderFactory.createTitledBorder("Control"));
 		txpSteps.setBorder(new LineBorder(Color.LIGHT_GRAY));
-		
+
 		txpSteps.setEditable(false);
-		
+
 		btnOpen.setEnabled(true);
 		btnSolve.setEnabled(false);
 		btnAnimate.setEnabled(false);
@@ -97,18 +98,26 @@ public class MainFrame extends JFrame {
 
 						try {
 							controller.openConfigurationFile(file);
+
+							lblStepNo.setText("Optimal steps: -");
+							lblRuntime.setText("Running time: -");
+							txpSteps.setText("");
 							btnSolve.setEnabled(true);
 						} catch (FileNotFoundException e1) {
+							btnSolve.setEnabled(false);
 							JOptionPane
 									.showMessageDialog(null,
 											"The file was not found!",
 											"File not found",
 											JOptionPane.ERROR_MESSAGE);
 						} catch (IllegalArgumentException e1) {
+							btnSolve.setEnabled(false);
 							JOptionPane.showMessageDialog(null,
 									"The provided configuration is not valid!",
 									"Not valid configuration",
 									JOptionPane.ERROR_MESSAGE);
+						} finally {
+							btnAnimate.setEnabled(false);
 						}
 					} else {
 						// Open command cancelled by user.
@@ -126,31 +135,34 @@ public class MainFrame extends JFrame {
 					btnSolve.setEnabled(false);
 					btnAnimate.setEnabled(false);
 					lblProgress.setVisible(true);
-						new Thread(new Runnable() {
-							public void run() {
-								try {
-									controller.solveConfiguration();
-								} catch (NoSolutionException e) {
-									btnOpen.setEnabled(true);
-									btnSolve.setEnabled(true);
-									btnAnimate.setEnabled(false);
-									lblProgress.setVisible(false);
-									
-									JOptionPane.showMessageDialog(null,
-											"The current configuration cannot be solved!",
-											"Unsolvable configuration",
-											JOptionPane.ERROR_MESSAGE);
-								}
+					new Thread(new Runnable() {
+						public void run() {
+							try {
+								controller.solveConfiguration();
+							} catch (NoSolutionException e) {
+								btnOpen.setEnabled(true);
+								btnSolve.setEnabled(true);
+								btnAnimate.setEnabled(false);
+								lblProgress.setVisible(false);
+
+								txpSteps.setText("The current configuration cannot be solved!");
+								JOptionPane
+										.showMessageDialog(
+												null,
+												"The current configuration cannot be solved!",
+												"Unsolvable configuration",
+												JOptionPane.ERROR_MESSAGE);
 							}
-						}).start();
-						
+						}
+					}).start();
+
 				}
 
 			}
 		});
-		
+
 		btnAnimate.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Animation/steps
@@ -193,7 +205,7 @@ public class MainFrame extends JFrame {
 		lblSteps.setSize(new Dimension(235, 32));
 		txpSteps.setSize(new Dimension(225, 86));
 		lblProgress.setSize(new Dimension(128, 128));
-		
+
 		lblProgress.setVisible(false);
 
 		pnlButtonHolder.setVisible(true);
@@ -208,13 +220,10 @@ public class MainFrame extends JFrame {
 
 	public void displayResult(SearchResult result) {
 		String path = "";
-		
-		for (char c: result.getPath())
+		for (char c : result.getPath())
 			path += c + " ";
-		
-		long runningTime = result.getRunningTime() == 0 ? 0 : result.getRunningTime() / 1000;
-		
-		lblRuntime.setText("Running time: " + runningTime + "s");
+
+		lblRuntime.setText("Running time: " + result.getRunningTime() + "ms");
 		lblStepNo.setText("Optimal steps: " + result.getSteps());
 		txpSteps.setText(path);
 
