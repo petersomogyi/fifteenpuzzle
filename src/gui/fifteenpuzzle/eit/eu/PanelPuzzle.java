@@ -13,25 +13,32 @@ public class PanelPuzzle extends JPanel {
 	protected final int WIDTH = 50;
 	protected final int HEIGHT = 50;
 	
-	public void drawInitConfig(int[] conf) {
+	public PanelPuzzle() {
 		tiles = new JLabel[16];
-
 		for (int i = 0; i< 4; ++i) {
 			for (int j = 0; j<4; ++j) {
-				JLabel label = new JLabel(String.valueOf(conf[i*4 + j]));
+				JLabel label = new JLabel();
 				label.setPreferredSize(new Dimension(WIDTH, HEIGHT));
 				label.setHorizontalAlignment(JLabel.CENTER);
 				label.setVerticalAlignment(JLabel.CENTER);
 				label.setOpaque(true);
 				label.setBackground(Color.LIGHT_GRAY);
 				label.setBorder(new LineBorder(Color.BLACK));
-				label.setVisible(true);
-				if (conf[i*4 + j] == 0) {
-					empty = i*4 + j;
-					label.setVisible(false);
-				}
+				label.setVisible(false);
 				this.add(label);
 				tiles[i*4 + j] = label;
+			}
+		}
+	}
+	
+	public void drawInitConfig(int[] conf) {
+		for (int i=0; i<16; ++i){
+			tiles[i].setText(String.valueOf(conf[i]));
+			if (conf[i] == 0){
+				empty = i;
+				tiles[i].setVisible(false);
+			} else {
+				tiles[i].setVisible(true);
 			}
 		}
 	}
