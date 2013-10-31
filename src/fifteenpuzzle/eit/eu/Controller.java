@@ -39,47 +39,38 @@ public class Controller {
 
 		// Create root graph
 		graph = new Graph(a);
-		
+
 		return a;
 	}
-	
+
 	public void solveConfiguration() throws NoSolutionException {
 		solver = new Idastar();
 		SearchResult result = solver.resolve(graph);
 		solutionFound(result);
 	}
-	
+
 	private void solutionFound(SearchResult result) {
 		gui.displayResult(result);
 	}
-	
+
 	public void playSolution() {
-        new Thread(new Runnable() {
-                
-                @Override
-                public void run() {
-                        for (char c : result.getPath()) {
-                                gui.step(c);
-                                //gui.repaint();
-                                try {
-                                        Thread.sleep(500);
-                                } catch (InterruptedException e) {
-                                        e.printStackTrace();
-                                }
-                                /*try {
-                                        TimeUnit.MILLISECONDS.sleep(1000);
-                                } catch (InterruptedException e) {
-                                        // TODO Auto-generated catch block
-                                        e.printStackTrace();
-                                }*/
-                        }                                
-                }
-        }).start();
-        
-    }
-			
+		new Thread(new Runnable() {
+
+			@Override
+			public void run() {
+				for (char c : result.getPath()) {
+					gui.step(c);
+				}
+				playFinished();
+			}
+		}).start();
+	}
+	
+	public void playFinished() {
+		gui.playFinished();
+	}
+
 	public void setResult(SearchResult result) {
 		this.result = result;
-		
 	}
 }

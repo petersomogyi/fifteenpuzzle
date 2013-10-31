@@ -39,8 +39,7 @@ public class MainFrame extends JFrame {
 	private JButton btnSolve, btnAnimate, btnOpen;
 	private JLabel lblStepNo, lblRuntime, lblProgress, lblSteps;
 	private JTextPane txpSteps;
-	//private JLabel lblPuzzle; // TODO: change to the implemented version
-	private PanelPuzzle puzzle; // TODO: change to the implemented version
+	private PanelPuzzle puzzle;
 
 	// Filechooser
 	private final JFileChooser fileChooser;
@@ -65,14 +64,13 @@ public class MainFrame extends JFrame {
 		File f = new File(".");
 		fileChooser = new JFileChooser(f.getAbsolutePath());
 
-		//lblPuzzle = new JLabel("Puzzle position");
+		// lblPuzzle = new JLabel("Puzzle position");
 		puzzle = new PanelPuzzle();
-		puzzle.setLayout(new GridLayout(4,4,5,5));
 		lblProgress = new JLabel(new ImageIcon("loading.gif"));
 
-		pnlControl.setPreferredSize(new Dimension(245, 600));
-		pnlControl.setMaximumSize(new Dimension(245, 600));
-		pnlControl.setMinimumSize(new Dimension(245, 600));
+		pnlControl.setPreferredSize(new Dimension(245, 300));
+		pnlControl.setMaximumSize(new Dimension(245, 300));
+		pnlControl.setMinimumSize(new Dimension(245, 300));
 
 		// Borders
 		pnlPuzzle.setBorder(BorderFactory.createTitledBorder("Puzzle"));
@@ -103,7 +101,6 @@ public class MainFrame extends JFrame {
 							int[] a;
 							a = controller.openConfigurationFile(file);
 							puzzle.drawInitConfig(a);
-							pack();
 
 							lblStepNo.setText("Optimal steps: -");
 							lblRuntime.setText("Running time: -");
@@ -171,9 +168,11 @@ public class MainFrame extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Animation/steps
+				btnOpen.setEnabled(false);
+				btnSolve.setEnabled(false);
+				btnAnimate.setEnabled(false);
+				lblProgress.setVisible(true);
 				controller.playSolution();
-				pack();
 			}
 		});
 
@@ -182,10 +181,11 @@ public class MainFrame extends JFrame {
 		// Set frame properties
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setTitle("Fifteen Puzzle Solver");
-		setSize(new Dimension(800, 600));
+		setSize(new Dimension(530, 350));
+		setResizable(false);
 		setLocationRelativeTo(getRootPane());
 
-		//pnlPuzzle.add(lblPuzzle);
+		// pnlPuzzle.add(lblPuzzle);
 		pnlPuzzle.add(puzzle);
 
 		pnlButtonHolder.add(btnOpen);
@@ -206,14 +206,14 @@ public class MainFrame extends JFrame {
 		lblStepNo.setLocation(10, 90);
 		lblSteps.setLocation(10, 110);
 		txpSteps.setLocation(10, 140);
-		lblProgress.setLocation(58, 300);
+		lblProgress.setLocation(85, 230);
 
 		pnlButtonHolder.setSize(new Dimension(235, 50));
 		lblRuntime.setSize(new Dimension(235, 32));
 		lblStepNo.setSize(new Dimension(235, 32));
 		lblSteps.setSize(new Dimension(235, 32));
 		txpSteps.setSize(new Dimension(225, 86));
-		lblProgress.setSize(new Dimension(128, 128));
+		lblProgress.setSize(new Dimension(64, 64));
 
 		lblProgress.setVisible(false);
 
@@ -241,16 +241,29 @@ public class MainFrame extends JFrame {
 		btnAnimate.setEnabled(true);
 		lblProgress.setVisible(false);
 	}
-	
+
 	public void step(char c) {
-		switch(c) {
-		case 'L': puzzle.moveLeft();break;
-		case 'R': puzzle.moveRight();break;
-		case 'U': puzzle.moveUp();break;
-		case 'D': puzzle.moveDown();break;
+		switch (c) {
+		case 'L':
+			puzzle.moveLeft();
+			break;
+		case 'R':
+			puzzle.moveRight();
+			break;
+		case 'U':
+			puzzle.moveUp();
+			break;
+		case 'D':
+			puzzle.moveDown();
+			break;
 		}
 	}
-	
-	
+
+	public void playFinished() {
+		lblProgress.setVisible(false);
+		btnAnimate.setEnabled(false);
+		btnSolve.setEnabled(false);
+		btnOpen.setEnabled(true);
+	}
 
 }
