@@ -54,18 +54,30 @@ public class Controller {
 	}
 	
 	public void playSolution() {
-		for (char c : result.getPath()) {
-			gui.step(c);
-			gui.pack();
-			/*try {
-				TimeUnit.MILLISECONDS.sleep(1000);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}*/
-		}
-	}
-	
+        new Thread(new Runnable() {
+                
+                @Override
+                public void run() {
+                        for (char c : result.getPath()) {
+                                gui.step(c);
+                                //gui.repaint();
+                                try {
+                                        Thread.sleep(500);
+                                } catch (InterruptedException e) {
+                                        e.printStackTrace();
+                                }
+                                /*try {
+                                        TimeUnit.MILLISECONDS.sleep(1000);
+                                } catch (InterruptedException e) {
+                                        // TODO Auto-generated catch block
+                                        e.printStackTrace();
+                                }*/
+                        }                                
+                }
+        }).start();
+        
+    }
+			
 	public void setResult(SearchResult result) {
 		this.result = result;
 		
