@@ -8,6 +8,7 @@ import idastar.fifteenpuzzle.eit.eu.NoSolutionException;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
+import java.util.concurrent.TimeUnit;
 
 import trie.fifteenpuzzle.eit.eu.Trie;
 
@@ -16,12 +17,13 @@ public class Controller {
 	Graph graph;
 	Idastar solver;
 	MainFrame gui;
+	private SearchResult result;
 
 	public Controller() {
 		gui = new MainFrame(this);
 	}
 
-	public void openConfigurationFile(File file) throws FileNotFoundException,
+	public int[] openConfigurationFile(File file) throws FileNotFoundException,
 			IllegalArgumentException {
 		// TODO: reimplement
 		Scanner scanner;
@@ -37,6 +39,8 @@ public class Controller {
 
 		// Create root graph
 		graph = new Graph(a);
+		
+		return a;
 	}
 	
 	public void solveConfiguration() throws NoSolutionException {
@@ -48,5 +52,22 @@ public class Controller {
 	private void solutionFound(SearchResult result) {
 		gui.displayResult(result);
 	}
-
+	
+	public void playSolution() {
+		for (char c : result.getPath()) {
+			gui.step(c);
+			gui.pack();
+			/*try {
+				TimeUnit.MILLISECONDS.sleep(1000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}*/
+		}
+	}
+	
+	public void setResult(SearchResult result) {
+		this.result = result;
+		
+	}
 }

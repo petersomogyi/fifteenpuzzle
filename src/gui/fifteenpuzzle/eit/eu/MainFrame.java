@@ -6,6 +6,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -38,7 +39,8 @@ public class MainFrame extends JFrame {
 	private JButton btnSolve, btnAnimate, btnOpen;
 	private JLabel lblStepNo, lblRuntime, lblProgress, lblSteps;
 	private JTextPane txpSteps;
-	private JLabel lblPuzzle; // TODO: change to the implemented version
+	//private JLabel lblPuzzle; // TODO: change to the implemented version
+	private PanelPuzzle puzzle; // TODO: change to the implemented version
 
 	// Filechooser
 	private final JFileChooser fileChooser;
@@ -63,8 +65,9 @@ public class MainFrame extends JFrame {
 		File f = new File(".");
 		fileChooser = new JFileChooser(f.getAbsolutePath());
 
-		lblPuzzle = new JLabel("Puzzle position");
-
+		//lblPuzzle = new JLabel("Puzzle position");
+		puzzle = new PanelPuzzle();
+		puzzle.setLayout(new GridLayout(4,4,5,5));
 		lblProgress = new JLabel(new ImageIcon("loading.gif"));
 
 		pnlControl.setPreferredSize(new Dimension(245, 600));
@@ -97,7 +100,10 @@ public class MainFrame extends JFrame {
 						File file = fileChooser.getSelectedFile();
 
 						try {
-							controller.openConfigurationFile(file);
+							int[] a;
+							a = controller.openConfigurationFile(file);
+							puzzle.drawInitConfig(a);
+							pack();
 
 							lblStepNo.setText("Optimal steps: -");
 							lblRuntime.setText("Running time: -");
@@ -166,6 +172,8 @@ public class MainFrame extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Animation/steps
+				controller.playSolution();
+				pack();
 			}
 		});
 
@@ -177,7 +185,8 @@ public class MainFrame extends JFrame {
 		setSize(new Dimension(800, 600));
 		setLocationRelativeTo(getRootPane());
 
-		pnlPuzzle.add(lblPuzzle);
+		//pnlPuzzle.add(lblPuzzle);
+		pnlPuzzle.add(puzzle);
 
 		pnlButtonHolder.add(btnOpen);
 		pnlButtonHolder.add(btnSolve);
@@ -220,9 +229,9 @@ public class MainFrame extends JFrame {
 
 	public void displayResult(SearchResult result) {
 		String path = "";
+		controller.setResult(result);
 		for (char c : result.getPath())
 			path += c + " ";
-
 		lblRuntime.setText("Running time: " + result.getRunningTime() + "ms");
 		lblStepNo.setText("Optimal steps: " + result.getSteps());
 		txpSteps.setText(path);
@@ -232,5 +241,16 @@ public class MainFrame extends JFrame {
 		btnAnimate.setEnabled(true);
 		lblProgress.setVisible(false);
 	}
+	
+	public void step(char c) {
+		switch(c) {
+		case 'L': puzzle.moveLeft();break;
+		case 'R': puzzle.moveRight();break;
+		case 'U': puzzle.moveUp();break;
+		case 'D': puzzle.moveDown();break;
+		}
+	}
+	
+	
 
 }
