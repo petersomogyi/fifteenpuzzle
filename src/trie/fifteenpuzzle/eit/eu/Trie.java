@@ -5,7 +5,6 @@ public class Trie{
 	public TrieNode root;
 	
 	public class TrieNode {
-	    //TrieNode[] links;
 		TrieNode left;
 		TrieNode right;
 		TrieNode up;
@@ -28,7 +27,7 @@ public class Trie{
 	//	null if it found and fullword
     //	a node if it found and not fullword
 	//	if a branch ends it starts from the root again
-    public TrieNode nextNode(TrieNode start, char c)
+    public TrieNode nextNode(TrieNode start, char c) throws CycleFoundException
     {
     	TrieNode curNode = start;
         switch (c) {
@@ -47,7 +46,7 @@ public class Trie{
 		}
         
         if (curNode.fullWord)
-            return null;
+            throw new CycleFoundException(c);
         
         return curNode;
     }
