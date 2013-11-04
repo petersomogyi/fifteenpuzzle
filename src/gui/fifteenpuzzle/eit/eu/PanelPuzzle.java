@@ -8,6 +8,8 @@ import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 
 public class PanelPuzzle extends JPanel {
+
+	private static final long serialVersionUID = -1841313609569728670L;
 	private JLabel[] tiles;
 	private int empty;
 
@@ -19,11 +21,11 @@ public class PanelPuzzle extends JPanel {
 	public PanelPuzzle() {
 		super();
 		setLayout(null);
-				
+
 		setPreferredSize(new Dimension(250, 250));
 		setMaximumSize(new Dimension(250, 250));
 		setMinimumSize(new Dimension(250, 250));
-		
+
 		tiles = new JLabel[16];
 		for (int i = 0; i < 4; ++i) {
 			for (int j = 0; j < 4; ++j) {
@@ -35,7 +37,8 @@ public class PanelPuzzle extends JPanel {
 				tiles[i * 4 + j].setBackground(Color.LIGHT_GRAY);
 				tiles[i * 4 + j].setBorder(new LineBorder(Color.BLACK));
 				tiles[i * 4 + j].setVisible(false);
-				tiles[i * 4 + j].setLocation(j * (WIDTH + MARGIN) + 20, i * (HEIGHT + MARGIN) + 10);
+				tiles[i * 4 + j].setLocation(j * (WIDTH + MARGIN) + 20, i
+						* (HEIGHT + MARGIN) + 10);
 				this.add(tiles[i * 4 + j]);
 			}
 		}
@@ -127,7 +130,8 @@ public class PanelPuzzle extends JPanel {
 		int startY = (int) lbl.getLocation().getY();
 		int x = 0;
 		int y = 0;
-		while (Math.abs(x) < (WIDTH + MARGIN) && Math.abs(y) < (HEIGHT + MARGIN)) {
+		while (Math.abs(x) < (WIDTH + MARGIN)
+				&& Math.abs(y) < (HEIGHT + MARGIN)) {
 			x += dx;
 			y += dy;
 			lbl.setLocation(startX + x, startY + y);

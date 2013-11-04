@@ -6,75 +6,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
 
-import trie.fifteenpuzzle.eit.eu.Trie;
-import idastar.fifteenpuzzle.eit.eu.Idastar;
-import idastar.fifteenpuzzle.eit.eu.NoSolutionException;
-import graph.fifteenpuzzle.eit.eu.Graph;
-import gui.fifteenpuzzle.eit.eu.MainFrame;
-
 public class FifteenOptimalSolution {
 
 	public static void main(String[] args) {
 		new Controller();
-/*		
-		int[] a = {1,2,3,7,4,5,0,6,8,9,10,11,12,13,14,15};
-		
-		//reading the filename from the standard io
-		String fileName = getFileName();
-		//getting the initial state from the file
-		try {
-			a = getInitConfig(fileName);
-		} catch (FileNotFoundException e1) {
-			System.err.println("The file does not exist!");
-			return;
-		}
-		
-		
-		Trie t = new Trie();
-        String[] words = {"lurdlurdlurd", "urdlurdlurdl", "rdlurdlurdlu", "dlurdlurdlur", 
-						  "ruldruldruld", "uldruldruldr", "ldruldruldru", "druldruldrul",
-						  "dllurrdllurrdllurr","llurrdllurrdllurrd","lurrdllurrdllurrdl","urrdllurrdllurrdll","rrdllurrdllurrdllu","rdllurrdllurrdllur",
-						  "drrulldrrulldrrull","rrulldrrulldrrulld","rulldrrulldrrulldr","ulldrrulldrrulldrr","lldrrulldrrulldrru","ldrrulldrrulldrrul",
-						  "ddruulddruulddruul","druulddruulddruuld","ruulddruulddruuldd","uulddruulddruulddr","ulddruulddruulddru","lddruulddruulddruu",
-						  "ddluurddluurddluur","dluurddluurddluurd","luurddluurddluurdd","uurddluurddluurddl","urddluurddluurddlu","rddluurddluurddluu",
-						  "ddlluurrddlluurrddlluurr","dlluurrddlluurrddlluurrd","lluurrddlluurrddlluurrdd","luurrddlluurrddlluurrddl","uurrddlluurrddlluurrddll","urrddlluurrddlluurrddllu","rrddlluurrddlluurrddlluu","rddlluurrddlluurrddlluur",
-						  "ddrruullddrruullddrruull","drruullddrruullddrruulld","rruullddrruullddrruulldd","ruullddrruullddrruullddr","uullddrruullddrruullddrr","ullddrruullddrruullddrru","llddrruullddrruullddrruu","lddrruullddrruullddrruul"};
-        for (int i = 0; i < words.length; i++)
-            t.insertWord(words[i]);
-        
-        Graph v = null;
-        try {
-        	v = new Graph(a,t,t.root);
-        	
-        	Idastar solver = new Idastar();
-        	
-    		System.out.println("Start searching...");
-    		// Timer
-    		long startTime = System.currentTimeMillis();
-    		
-    		System.out.println("Steps: " + solver.resolve(v));
-    		
-    		//Calculate elapsed time
-    		long endTime   = System.currentTimeMillis();
-    		long totalTime = endTime - startTime;
-
-    		System.out.print("Solution: ");
-    		solver.getPath();
-    		System.out.print("Number of checked nodes: ");
-    		solver.getCounter();
-    		
-    		System.out.println("Running time: " + totalTime + " ms");
-    		
-    		//Check the solution
-    		//TODO: throw errors
-    		System.out.println("Optimal step number: " + getOptimalStepNum(fileName));
-    		
-        } catch (NoSolutionException e) {
-        	System.out.println("FAILURE");
-        	System.err.println(e.getMessage());
-        }
-        */
-		
 	}
 
 	// read filename from the standard io

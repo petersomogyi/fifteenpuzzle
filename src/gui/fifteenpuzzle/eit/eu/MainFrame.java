@@ -6,12 +6,11 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.GridLayout;
-import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -27,6 +26,10 @@ import javax.swing.border.LineBorder;
 import fifteenpuzzle.eit.eu.Controller;
 import fifteenpuzzle.eit.eu.SearchResult;
 
+// This class is responsible for the GUI of the application.
+// Provides possibility to open configuration stored in files, solve it,
+// display the search results and play an animated path from the starting
+// configuration to the final one.
 public class MainFrame extends JFrame {
 
 	private static final long serialVersionUID = -7277311210957252035L;
@@ -51,20 +54,18 @@ public class MainFrame extends JFrame {
 		pnlPuzzle = new JPanel();
 		pnlControl = new JPanel();
 		pnlButtonHolder = new JPanel(new FlowLayout());
-
 		btnSolve = new JButton("Solve");
 		btnAnimate = new JButton("Play");
 		btnOpen = new JButton("Open");
-
 		lblStepNo = new JLabel("Optimal steps: -");
 		lblRuntime = new JLabel("Running time: -");
 		lblSteps = new JLabel("Steps");
 		txpSteps = new JTextPane();
 
+		// Get current directory
 		File f = new File(".");
 		fileChooser = new JFileChooser(f.getAbsolutePath());
 
-		// lblPuzzle = new JLabel("Puzzle position");
 		puzzle = new PanelPuzzle();
 		lblProgress = new JLabel(new ImageIcon("loading.gif"));
 
@@ -87,6 +88,7 @@ public class MainFrame extends JFrame {
 		btnSolve.setPreferredSize(new Dimension(72, 25));
 		btnAnimate.setPreferredSize(new Dimension(72, 25));
 
+		// Handle Click event for Open button
 		btnOpen.addActionListener(new ActionListener() {
 
 			@Override
@@ -98,9 +100,9 @@ public class MainFrame extends JFrame {
 						File file = fileChooser.getSelectedFile();
 
 						try {
-							int[] a;
-							a = controller.openConfigurationFile(file);
-							puzzle.drawInitConfig(a);
+							int[] config;
+							config = controller.openConfigurationFile(file);
+							puzzle.drawInitConfig(config);
 
 							lblStepNo.setText("Optimal steps: -");
 							lblRuntime.setText("Running time: -");
@@ -119,6 +121,13 @@ public class MainFrame extends JFrame {
 									"The provided configuration is not valid!",
 									"Not valid configuration",
 									JOptionPane.ERROR_MESSAGE);
+						} catch (IOException e1) {
+							btnSolve.setEnabled(false);
+							JOptionPane.showMessageDialog(null,
+									"The provided configuration is not valid!",
+									"Not valid configuration",
+									JOptionPane.ERROR_MESSAGE);
+							e1.printStackTrace();
 						} finally {
 							btnAnimate.setEnabled(false);
 						}
@@ -129,6 +138,7 @@ public class MainFrame extends JFrame {
 			}
 		});
 
+		// Handle Click event for Solve button
 		btnSolve.addActionListener(new ActionListener() {
 
 			@Override
@@ -164,6 +174,7 @@ public class MainFrame extends JFrame {
 			}
 		});
 
+		// Handle Click event for Animate button
 		btnAnimate.addActionListener(new ActionListener() {
 
 			@Override
@@ -185,7 +196,7 @@ public class MainFrame extends JFrame {
 		setResizable(false);
 		setLocationRelativeTo(getRootPane());
 
-		// pnlPuzzle.add(lblPuzzle);
+		// Add elements to the window
 		pnlPuzzle.add(puzzle);
 
 		pnlButtonHolder.add(btnOpen);
@@ -227,6 +238,7 @@ public class MainFrame extends JFrame {
 		setVisible(true);
 	}
 
+	// Displays the result of the search
 	public void displayResult(SearchResult result) {
 		String path = "";
 		controller.setResult(result);
