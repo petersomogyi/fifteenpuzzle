@@ -1,78 +1,8 @@
 package fifteenpuzzle.eit.eu;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Scanner;
-
 public class FifteenOptimalSolution {
 
 	public static void main(String[] args) {
 		new Controller();
-	}
-
-	// read filename from the standard io
-	// after listing the content of test folder
-	public static String getFileName() {
-		File f = new File("Tests");
-		ArrayList<String> names = new ArrayList<String>(Arrays.asList(f.list()));
-		for (String n : names) {
-			if (n.matches("^(easy|korf).[0-9]{3}$"))
-				System.out.println(n);
-		}
-		System.out.println("Choose an input file:");
-
-		Scanner input = new Scanner(System.in);
-		String fileName = input.nextLine();
-		input.close();
-		return fileName;
-	}
-
-	// TODO: add more exceptions
-	// check that there are really 15 numbers in the file
-	public static int[] getInitConfig(String fileName)
-			throws FileNotFoundException {
-		Scanner scanner;
-		int[] a = new int[16];
-		try {
-			// can throw FileNotfoundException
-			scanner = new Scanner(new File("Tests/" + fileName));
-
-			int i = 0;
-			while (scanner.hasNextInt()) {
-				a[i++] = scanner.nextInt();
-			}
-			scanner.close();
-			return a;
-		} catch (FileNotFoundException e1) {
-			throw e1;
-		}
-	}
-
-	// read file.ref
-	// TODO also check the "ok" part
-	// check the exceptions
-	public static int getOptimalStepNum(String fileName) {
-		Scanner scanner;
-		int num = -1;
-		String isSolution = "";
-		try {
-			// can throw FileNotfoundException
-			scanner = new Scanner(new File("Tests/" + fileName + ".ref"));
-
-			while (!scanner.hasNextInt()) {
-				isSolution = isSolution + scanner.next();
-			}
-			if (scanner.hasNextInt()) {
-				num = scanner.nextInt();
-			}
-			scanner.close();
-			return num;
-		} catch (FileNotFoundException e1) {
-			// if the .ref pair of a correct test file does not exist
-			e1.printStackTrace();
-		}
-		return num;
 	}
 }
