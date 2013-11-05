@@ -73,17 +73,20 @@ public final class Graph implements GraphConf {
 			return false;
 
 		// Check if all tiles are in the array (0-15).
-		for (int i = 0; i < 16; ++i) {
+		boolean ret = true;
+		int i = 0;
+		while (i < 16 && ret) {
 			int j = 0;
 			while (j < 16 && configuration[j] != i) {
 				++j;
 			}
 			if (j >= 16)
-				return false;
+				ret = false;
+			i++;
 		}
 
-		// Validation finished successfully.
-		return true;
+		// Validation has finished.
+		return ret;
 	}
 
 	// 15 puzzle solvability
@@ -154,10 +157,12 @@ public final class Graph implements GraphConf {
 	// Returns the empty tile's index
 	private int getEmptyIndex() {
 		int i = 0;
-		while (i < 16) {
+		boolean found = false;
+		while (i < 16 && !found) {
 			if (this.tiles[i] == 0)
-				return i;
-			++i;
+				found = true;
+			else 
+				++i;
 		}
 
 		return i;
