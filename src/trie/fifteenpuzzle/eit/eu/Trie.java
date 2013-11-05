@@ -2,34 +2,25 @@ package trie.fifteenpuzzle.eit.eu;
 
 public class Trie{
 
-	public TrieNode root;
+	private Node root;
 	
-	public class TrieNode {
-		TrieNode left;
-		TrieNode right;
-		TrieNode up;
-		TrieNode down;
-	    boolean fullWord;
-	    
-	    public TrieNode(TrieNode root, boolean fullWord) {
-	        left = right = up = down = root;
-	        this.fullWord = fullWord;
-	    }
-	}
 	
     public Trie()
     {
-    	root = new TrieNode(null, false);
+    	root = new Node(null, false);
     }
 
+    public Node getRootNode() {
+    	return root;
+    }
 
 	//Returns 
 	//	null if it found and fullword
     //	a node if it found and not fullword
 	//	if a branch ends it starts from the root again
-    public TrieNode nextNode(TrieNode start, char c) throws CycleFoundException
+    public Node next (Node start, char c) throws CycleFoundException
     {
-    	TrieNode curNode = start;
+    	Node curNode = start;
         switch (c) {
 	    	case 'd': 
 	    		curNode = curNode.down;
@@ -46,7 +37,7 @@ public class Trie{
 		}
         
         if (curNode.fullWord)
-            throw new CycleFoundException(c);
+            throw new CycleFoundException();
         
         return curNode;
     }
@@ -60,9 +51,9 @@ public class Trie{
 	else create a new node, set the letter to current letter, and set current node to this new node.
 	4. Repeat step 3 until all letters in the current word has been processed.
 	 */
-	public void insertWord(String word) {
+	public void add(String word) {
         int l = word.length();
-        TrieNode curNode = root;
+        Node curNode = root;
         char c;
         
         for (int i = 0; i < l; i++) {
@@ -70,22 +61,22 @@ public class Trie{
             switch (c) {
     	    	case 'd': 
     	    		if (curNode.down == root || curNode.down == null)
-    	    			curNode.down = new TrieNode(root, i == l-1 ? true : false);
+    	    			curNode.down = new Node(root, i == l-1 ? true : false);
     	    		curNode = curNode.down;
     	    		break;
     	    	case 'l': 
     	    		if (curNode.left == root || curNode.left == null)
-    	    			curNode.left = new TrieNode(root, i == l-1 ? true : false);
+    	    			curNode.left = new Node(root, i == l-1 ? true : false);
     	    		curNode = curNode.left;
     	    		break;
     	    	case 'r': 
     	    		if (curNode.right == root || curNode.down == null)
-    	    			curNode.right = new TrieNode(root, i == l-1 ? true : false);
+    	    			curNode.right = new Node(root, i == l-1 ? true : false);
     	    		curNode = curNode.right;
     	    		break;
     	    	case 'u': 
     	    		if (curNode.up == root || curNode.down == null)
-    	    			curNode.up = new TrieNode(root, i == l-1 ? true : false);
+    	    			curNode.up = new Node(root, i == l-1 ? true : false);
     	    		curNode = curNode.up;
     	    		break;
     		}

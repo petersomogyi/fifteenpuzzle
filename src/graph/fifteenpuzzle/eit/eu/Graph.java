@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import trie.fifteenpuzzle.eit.eu.CycleFoundException;
+import trie.fifteenpuzzle.eit.eu.Node;
 import trie.fifteenpuzzle.eit.eu.Trie;
 
 public final class Graph implements GraphConf {
@@ -17,7 +18,7 @@ public final class Graph implements GraphConf {
 	private final char previousMove;
 
 	private final Trie trie;
-	private final Trie.TrieNode trieCurrent;
+	private final Node trieCurrent;
 
 	// Index of the empty tile in the array
 	private final int emptyIndex;
@@ -28,7 +29,7 @@ public final class Graph implements GraphConf {
 
 	// Constructor from int array.
 	public Graph(final int[] configuration, final Trie root,
-			final Trie.TrieNode current) throws IllegalArgumentException {
+			final Node current) throws IllegalArgumentException {
 		// Validate the configuration
 		if (!isValidconfiguration(configuration))
 			throw new IllegalArgumentException();
@@ -46,7 +47,7 @@ public final class Graph implements GraphConf {
 
 	private Graph(final int[] configuration, final int steps,
 			final char previousMove, final Trie root,
-			final Trie.TrieNode current) {
+			final Node current) {
 		// Copy the elements of the array to the tiles variable
 		this.tiles = Arrays.copyOf(configuration, configuration.length);
 
@@ -212,7 +213,7 @@ public final class Graph implements GraphConf {
 	// Returns a new Vertex object which can be reached
 	// from the current state by moving up
 	@Override
-	public Graph moveUp(Trie.TrieNode currentNode) throws IllegalStateException {
+	public Graph moveUp(Node currentNode) throws IllegalStateException {
 		if (isUpAvailable()) {
 			int emptyIndex = getEmptyIndex();
 			int[] new_tiles = Arrays.copyOf(this.tiles, this.tiles.length);
@@ -232,7 +233,7 @@ public final class Graph implements GraphConf {
 	// Returns a new Vertex object which can be reached
 	// from the current state by moving right
 	@Override
-	public Graph moveRight(Trie.TrieNode currentNode)
+	public Graph moveRight(Node currentNode)
 			throws IllegalStateException {
 		if (isRightAvailable()) {
 			int emptyIndex = getEmptyIndex();
@@ -253,7 +254,7 @@ public final class Graph implements GraphConf {
 	// Returns a new Vertex object which can be reached
 	// from the current state by moving down
 	@Override
-	public Graph moveDown(Trie.TrieNode currentNode)
+	public Graph moveDown(Node currentNode)
 			throws IllegalStateException {
 		if (isDownAvailable()) {
 			int emptyIndex = getEmptyIndex();
@@ -274,7 +275,7 @@ public final class Graph implements GraphConf {
 	// Returns a new Vertex object which can be reached
 	// from the current state by moving left
 	@Override
-	public Graph moveLeft(Trie.TrieNode currentNode)
+	public Graph moveLeft(Node currentNode)
 			throws IllegalStateException {
 		if (isLeftAvailable()) {
 			int emptyIndex = getEmptyIndex();
@@ -299,13 +300,13 @@ public final class Graph implements GraphConf {
 		// u,r,d,l are the corresponding next node in the trie,
 		// unless we found a cycle, then we get an exception
 		
-		Trie.TrieNode u;
-		Trie.TrieNode r;
-		Trie.TrieNode d;
-		Trie.TrieNode l;
+		Node u;
+		Node r;
+		Node d;
+		Node l;
 		// Add the successor nodes to the list.
 		try {
-			u = trie.nextNode(trieCurrent, 'u');
+			u = trie.next(trieCurrent, 'u');
 			if (previousMove != 'D' && isUpAvailable()) {
 				Graph up = moveUp(u);
 				successors.add(up);
@@ -314,7 +315,7 @@ public final class Graph implements GraphConf {
 			//cycle detected: left
 		}
 		try {
-			r = trie.nextNode(trieCurrent, 'r');
+			r = trie.next(trieCurrent, 'r');
 			if (previousMove != 'L' && isRightAvailable()) {
 				Graph right = moveRight(r);
 				successors.add(right);
@@ -323,7 +324,7 @@ public final class Graph implements GraphConf {
 			//cycle detected: right
 		}
 		try {
-			d = trie.nextNode(trieCurrent, 'd');
+			d = trie.next(trieCurrent, 'd');
 			if (previousMove != 'U' && isDownAvailable()) {
 				Graph down = moveDown(d);
 				successors.add(down);
@@ -332,7 +333,7 @@ public final class Graph implements GraphConf {
 			//cycle detected: down
 		}
 		try {
-			l = trie.nextNode(trieCurrent, 'l');
+			l = trie.next(trieCurrent, 'l');
 			if (previousMove != 'R' && isLeftAvailable()) {
 				Graph left = moveLeft(l);
 				successors.add(left);

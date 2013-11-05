@@ -10,7 +10,9 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 
+import trie.fifteenpuzzle.eit.eu.CycleFoundException;
 import trie.fifteenpuzzle.eit.eu.Trie;
+
 
 // This class controls the GUI and the search engine and provides the required methods for communication.
 public class Controller {
@@ -76,10 +78,12 @@ public class Controller {
 				"llddrruullddrruullddrruu", "lddrruullddrruullddrruul" };
 
 		for (int i = 0; i < words.length; i++)
-			t.insertWord(words[i]);
+			t.add(words[i]);
+
 
 		// Create root graph
-		graph = new Graph(config, t, t.root);
+		graph = new Graph(config, t, t.getRootNode());
+
 
 		// Returns with the initial configuration to display it
 		return config;
