@@ -69,12 +69,12 @@ public class Trie{
     	    		curNode = curNode.left;
     	    		break;
     	    	case 'r': 
-    	    		if (curNode.right == root || curNode.down == null)
+    	    		if (curNode.right == root || curNode.right == null)
     	    			curNode.right = new Node(root, i == l-1 ? true : false, i);
     	    		curNode = curNode.right;
     	    		break;
     	    	case 'u': 
-    	    		if (curNode.up == root || curNode.down == null)
+    	    		if (curNode.up == root || curNode.up == null)
     	    			curNode.up = new Node(root, i == l-1 ? true : false, i);
     	    		curNode = curNode.up;
     	    		break;
