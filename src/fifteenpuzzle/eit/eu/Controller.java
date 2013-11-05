@@ -79,11 +79,10 @@ public class Controller {
 
 		for (int i = 0; i < words.length; i++)
 			t.add(words[i]);
-
+		t.setLinks(t.getRootNode());
 
 		// Create root graph
 		graph = new Graph(config, t, t.getRootNode());
-
 
 		// Returns with the initial configuration to display it
 		return config;
