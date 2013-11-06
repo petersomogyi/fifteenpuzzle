@@ -10,10 +10,10 @@ public class SearchResult {
 
 	private int steps;
 	private char[] path;
-	private int visitedNodes;
+	private long visitedNodes;
 	private long runningTime;
 
-	public SearchResult(int steps, char[] path, int visitedNodes,
+	public SearchResult(int steps, char[] path, long visitedNodes,
 			long runningTime) {
 		this.steps = steps;
 		this.path = path;
@@ -29,7 +29,7 @@ public class SearchResult {
 		return path;
 	}
 
-	public int getVisitedNodes() {
+	public long getVisitedNodes() {
 		return visitedNodes;
 	}
 

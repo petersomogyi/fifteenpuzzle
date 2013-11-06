@@ -44,7 +44,7 @@ end function
 
 public final class Idastar implements IdastarConf {
 	
-	private int counter = 0;
+	private long counter = 0;
 	private Stack<Character> path;
 	
 	public SearchResult resolve(Graph start) throws NoSolutionException {

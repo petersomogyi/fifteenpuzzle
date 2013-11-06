@@ -11,6 +11,8 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.text.NumberFormat;
+import java.util.concurrent.TimeUnit;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -40,7 +42,7 @@ public class MainFrame extends JFrame {
 	// GUI components
 	private JPanel pnlMain, pnlPuzzle, pnlControl, pnlButtonHolder;
 	private JButton btnSolve, btnAnimate, btnOpen;
-	private JLabel lblStepNo, lblRuntime, lblProgress, lblSteps;
+	private JLabel lblStepNo, lblRuntime, lblProgress, lblSteps, lblNodes;
 	private JTextPane txpSteps;
 	private PanelPuzzle puzzle;
 
@@ -59,6 +61,7 @@ public class MainFrame extends JFrame {
 		btnOpen = new JButton("Open");
 		lblStepNo = new JLabel("Optimal steps: -");
 		lblRuntime = new JLabel("Running time: -");
+		lblNodes = new JLabel("Configurations: -");
 		lblSteps = new JLabel("Steps");
 		txpSteps = new JTextPane();
 
@@ -106,6 +109,7 @@ public class MainFrame extends JFrame {
 
 							lblStepNo.setText("Optimal steps: -");
 							lblRuntime.setText("Running time: -");
+							lblNodes.setText("Configurations: -");
 							txpSteps.setText("");
 							btnSolve.setEnabled(true);
 						} catch (FileNotFoundException e1) {
@@ -208,21 +212,24 @@ public class MainFrame extends JFrame {
 		pnlControl.add(pnlButtonHolder);
 		pnlControl.add(lblRuntime);
 		pnlControl.add(lblStepNo);
+		pnlControl.add(lblNodes);
 		pnlControl.add(lblSteps);
 		pnlControl.add(txpSteps);
 		pnlControl.add(lblProgress);
 
 		pnlButtonHolder.setLocation(5, 25);
-		lblRuntime.setLocation(10, 70);
-		lblStepNo.setLocation(10, 90);
-		lblSteps.setLocation(10, 110);
-		txpSteps.setLocation(10, 140);
-		lblProgress.setLocation(85, 230);
+		lblRuntime.setLocation(10, 60);
+		lblStepNo.setLocation(10, 80);
+		lblNodes.setLocation(10, 100);
+		lblSteps.setLocation(10, 120);
+		txpSteps.setLocation(10, 150);
+		lblProgress.setLocation(85, 250);
 
-		pnlButtonHolder.setSize(new Dimension(235, 50));
-		lblRuntime.setSize(new Dimension(235, 32));
-		lblStepNo.setSize(new Dimension(235, 32));
-		lblSteps.setSize(new Dimension(235, 32));
+		pnlButtonHolder.setSize(new Dimension(235, 40));
+		lblRuntime.setSize(new Dimension(235, 22));
+		lblStepNo.setSize(new Dimension(235, 22));
+		lblSteps.setSize(new Dimension(235, 22));
+		lblNodes.setSize(new Dimension(235, 22));
 		txpSteps.setSize(new Dimension(225, 86));
 		lblProgress.setSize(new Dimension(64, 64));
 
@@ -244,8 +251,22 @@ public class MainFrame extends JFrame {
 		controller.setResult(result);
 		for (char c : result.getPath())
 			path += c + " ";
-		lblRuntime.setText("Running time: " + result.getRunningTime() + "ms");
+
+		// Format time
+		long millis = result.getRunningTime();
+		String time = String.format(
+				"%02dm %02ds %03dms",
+				TimeUnit.MILLISECONDS.toMinutes(millis)
+						- TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS
+								.toHours(millis)), // The change is in this line
+				TimeUnit.MILLISECONDS.toSeconds(millis)
+						- TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS
+								.toMinutes(millis)), millis % 1000);
+		lblRuntime.setText("Running time: " + time);
 		lblStepNo.setText("Optimal steps: " + result.getSteps());
+		lblNodes.setText("Configurations: "
+				+ NumberFormat.getNumberInstance().format(
+						result.getVisitedNodes()));
 		txpSteps.setText(path);
 
 		btnOpen.setEnabled(true);
