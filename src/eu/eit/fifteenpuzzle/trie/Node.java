@@ -1,4 +1,4 @@
-package trie.fifteenpuzzle.eit.eu;
+package eu.eit.fifteenpuzzle.trie;
 
 public class Node {
 	Node left;

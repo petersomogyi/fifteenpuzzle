@@ -1,4 +1,4 @@
-package gui.fifteenpuzzle.eit.eu;
+package eu.eit.fifteenpuzzle.gui;
 
 import java.awt.Color;
 import java.awt.Dimension;

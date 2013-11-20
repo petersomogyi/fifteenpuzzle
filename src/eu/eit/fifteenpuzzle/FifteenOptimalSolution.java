@@ -1,4 +1,5 @@
-package fifteenpuzzle.eit.eu;
+package eu.eit.fifteenpuzzle;
+
 
 public class FifteenOptimalSolution {
 

@@ -1,17 +1,16 @@
-package fifteenpuzzle.eit.eu;
+package eu.eit.fifteenpuzzle;
 
-import graph.fifteenpuzzle.eit.eu.Graph;
-import gui.fifteenpuzzle.eit.eu.MainFrame;
-import idastar.fifteenpuzzle.eit.eu.Idastar;
-import idastar.fifteenpuzzle.eit.eu.NoSolutionException;
+import eu.eit.fifteenpuzzle.graph.Graph;
+import eu.eit.fifteenpuzzle.gui.MainFrame;
+import eu.eit.fifteenpuzzle.idastar.Idastar;
+import eu.eit.fifteenpuzzle.idastar.NoSolutionException;
+import eu.eit.fifteenpuzzle.trie.CycleFoundException;
+import eu.eit.fifteenpuzzle.trie.Trie;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-
-import trie.fifteenpuzzle.eit.eu.CycleFoundException;
-import trie.fifteenpuzzle.eit.eu.Trie;
 
 
 // This class controls the GUI and the search engine and provides the required methods for communication.

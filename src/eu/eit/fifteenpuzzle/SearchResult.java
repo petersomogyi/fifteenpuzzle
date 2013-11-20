@@ -1,4 +1,4 @@
-package fifteenpuzzle.eit.eu;
+package eu.eit.fifteenpuzzle;
 
 // This class is responsible to store the results from the IDA* search.
 // Stores

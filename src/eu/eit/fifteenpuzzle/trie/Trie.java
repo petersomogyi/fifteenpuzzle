@@ -1,4 +1,5 @@
-package trie.fifteenpuzzle.eit.eu;
+package eu.eit.fifteenpuzzle.trie;
+
 
 public class Trie{
 

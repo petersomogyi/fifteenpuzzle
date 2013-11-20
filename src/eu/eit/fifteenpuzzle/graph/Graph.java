@@ -1,12 +1,12 @@
-package graph.fifteenpuzzle.eit.eu;
+package eu.eit.fifteenpuzzle.graph;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import trie.fifteenpuzzle.eit.eu.CycleFoundException;
-import trie.fifteenpuzzle.eit.eu.Node;
-import trie.fifteenpuzzle.eit.eu.Trie;
+import eu.eit.fifteenpuzzle.trie.CycleFoundException;
+import eu.eit.fifteenpuzzle.trie.Node;
+import eu.eit.fifteenpuzzle.trie.Trie;
 
 public final class Graph implements GraphConf {
 

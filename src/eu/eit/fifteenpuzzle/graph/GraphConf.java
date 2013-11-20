@@ -1,9 +1,9 @@
-package graph.fifteenpuzzle.eit.eu;
+package eu.eit.fifteenpuzzle.graph;
 
 import java.util.List;
 
-import trie.fifteenpuzzle.eit.eu.Node;
-import trie.fifteenpuzzle.eit.eu.CycleFoundException;
+import eu.eit.fifteenpuzzle.trie.CycleFoundException;
+import eu.eit.fifteenpuzzle.trie.Node;
 
 public interface GraphConf {
 

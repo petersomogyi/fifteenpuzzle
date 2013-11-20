@@ -1,6 +1,4 @@
-package gui.fifteenpuzzle.eit.eu;
-
-import idastar.fifteenpuzzle.eit.eu.NoSolutionException;
+package eu.eit.fifteenpuzzle.gui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -25,8 +23,9 @@ import javax.swing.JPanel;
 import javax.swing.JTextPane;
 import javax.swing.border.LineBorder;
 
-import fifteenpuzzle.eit.eu.Controller;
-import fifteenpuzzle.eit.eu.SearchResult;
+import eu.eit.fifteenpuzzle.Controller;
+import eu.eit.fifteenpuzzle.SearchResult;
+import eu.eit.fifteenpuzzle.idastar.NoSolutionException;
 
 // This class is responsible for the GUI of the application.
 // Provides possibility to open configuration stored in files, solve it,

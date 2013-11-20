@@ -1,4 +1,4 @@
-package idastar.fifteenpuzzle.eit.eu;
+package eu.eit.fifteenpuzzle.idastar;
 
 public class NoSolutionException extends Exception {
 	

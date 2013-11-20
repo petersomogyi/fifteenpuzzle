@@ -1,7 +1,7 @@
-package idastar.fifteenpuzzle.eit.eu;
+package eu.eit.fifteenpuzzle.idastar;
 
-import fifteenpuzzle.eit.eu.SearchResult;
-import graph.fifteenpuzzle.eit.eu.Graph;
+import eu.eit.fifteenpuzzle.SearchResult;
+import eu.eit.fifteenpuzzle.graph.Graph;
 
 import java.util.ArrayList;
 import java.util.List;
